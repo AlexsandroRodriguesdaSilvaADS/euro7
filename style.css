@@ -357,6 +357,66 @@ tr:nth-child(even) {
     border-radius: 4px;
 }
 
+/* Elemento miniatura */
+.thumb {
+    width: 400px;
+    padding: 15px;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#thumb-img {
+    width: 80%;
+}
+
+.thumb:hover {
+    transform: scale(1.03);
+}
+
+/* Fundo escuro (Overlay) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+/* Estado ativo do Overlay */
+.overlay.ativo {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Conteúdo Ampliado no centro */
+.conteudo-ampliado {
+    /*background: white;*/
+    color: #333;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 80%;
+    transform: scale(0.7);
+    transition: transform 0.3s ease;
+}
+
+.overlay.ativo .conteudo-ampliado {
+    transform: scale(1.5);
+}
+
+button {
+    font-size: 10px;
+}
+
 @media (max-width: 768px) {
     .slide {
         padding: 20px 20px 80px 20px;

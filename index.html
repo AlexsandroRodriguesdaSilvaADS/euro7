@@ -19,6 +19,50 @@
       <div class="autor-badge">Alexsandro Rodrigues da Silva</div>
     </section>
 
+    <section class="slide">
+      <div class="slide-header">
+        <h2>Marcos Históricos</h2>
+        <span class="tag-fase">Eventos Catastróficos</span>
+      </div>
+      <div class="slide-content">
+        <div class="grid-4">
+          <div class="card">
+            <h4>1. Século XIX: O Surgimento Do Problema E A Primeira Lei Ambiental (Década De 1860)</h4>
+            <p>Durante a Revolução Industrial na Inglaterra, o uso massivo do processo químico Leblanc para produzir
+              carbonato de sódio (usado em sabão, vidro e tecidos) liberava toneladas de gás clorídrico (HCl) na
+              atmosfera. Isso devastou florestas, corroeu infraestruturas e causou graves problemas respiratórios nas
+              populações locais.</p>
+          </div>
+          <div class="card">
+            <h4>2. Meados Do Século XX: As Crises De Poluição E A Saúde Pública (1940–1960)</h4>
+            <p>Com a expansão da indústria pesada e do uso do carvão e petróleo no século XX, grandes episódios críticos
+              de poluição chamaram a atenção global para os perigos dos gases industriais e do smog.
+              <br> O Grande Smog de Londres (1952): Uma densa camada de fuligem e dióxido de enxofre (SO2) decorrente da
+              queima industrial e residencial matou milhares de pessoas em poucos dias. Esse desastre motivou o Reino
+              Unido a aprovar o Clean Air Act em 1956.
+            </p>
+          </div>
+          <div class="card">
+            <h4>3. Anos 1970 Em Diante: O Debate Internacional E Global</h4>
+            <p>A partir dos anos 1970, o controle de emissões industriais deixou de ser uma discussão meramente local
+              para se tornar uma pauta diplomática internacional:
+            <ul>
+              <li>Conferência de Estocolmo (1972): A Organização das Nações Unidas (ONU) realizou a primeira grande
+                conferência com foco na chuva ácida provocada por SO2 e NOx.</li>
+              <li>Protocolo de Montreal (1987): Focado no controle e eliminação dos clorofluorcarbonetos (CFCs).</li>
+            </ul>
+            </p>
+          </div>
+          <div class="card">
+            <h4>4. Convenção-Quadro Da Onu E Protocolo De Kyoto (1992-1997)</h4>
+            <p>Ampliaram o foco das emissões para a escala global, regulando gases do efeito estufa (como CO2 e N2O)
+              provenientes do setor produtivo e energético.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- 1. Panorama Geral e Cronograma -->
     <section class="slide">
       <div class="slide-header">
@@ -167,8 +211,8 @@
               </tr>
               <tr>
                 <td>Pós-Tratamento (Escape)</td>
-                <td>SCR isolado (ARLA 32)</td>
-                <td>DOC (Catalisador de Oxidação Diesel) + DPF + SCR (Redução Catalítica Seletiva) + ASC (Catalizador de
+                <td>SCR (Redução Catalítica Seletiva - ARLA 32) + EGR + DPF</td>
+                <td>DOC (Catalisador de Oxidação Diesel) + ASC (Catalizador de
                   Escape de Amônia)</td>
                 <td>Arquitetura de pós-tratamento complexa</td>
               </tr>
@@ -187,13 +231,60 @@
             </tbody>
           </table>
         </div>
+        <div class="card">
+          <p>ARLA 32: Mistura de Uréia a 32,5% e Água Desmineralizada a 67,5%.<br>
+            Low SAPS: Com baixos teores de Cinzas Sulfatadas, Fósforo e Enxofre - Sulphated Ash, Phosphorus and Sulfur.
+          </p>
+        </div>
       </div>
     </section>
 
-    <!-- 4. As Normas Brasileiras (PROCONVE e PROMOT) -->
+    <!-- 4. Pós Tratamento -->
     <section class="slide">
       <div class="slide-header">
-        <h2>4. As Normas Brasileiras (PROCONVE e PROMOT)</h2>
+        <h2>4. Pós Tratamento dos Gases</h2>
+        <span class="tag-fase">Tecnologias</span>
+      </div>
+      <div class="slide-content">
+        <div class="grid-2">
+          <div class="card card-alerta">
+            <ul>
+              <li>EGR (Exhaust Gas Recirculation): A válvula EGR redireciona uma porcentagem calculada dos gases de
+                escape (que já queimaram e possuem pouco oxigênio) de volta para o coletor de admissão. Ao misturar
+                esses gases inertes ao ar limpo admitido,
+                diminui-se a concentração de oxigênio na mistura e absorve-se parte do calor da explosão, reduzindo a
+                temperatura máxima da câmara e inibindo a formação de NOx.</li>
+              <li>DOC (Diesel Oxidation Catalyst): Converte hidrocarbonetos (HC) e monóxido de carbono (CO) em água e
+                CO2.</li>
+              <li>DPF (Diesel Particulate Filter): Retém a fuligem física. Quando atinge o limite de carga, a central
+                eletrônica realiza a regeneração (injetando diesel extra para elevar a temperatura do escape a mais de
+                550 °C e queimar a fuligem acumulada).</li>
+              <li>SCR (Selective Catalytic Reduction): O ARLA 32 é pulverizado nos gases de escape quentes,
+                transformando o Óxido de Nitrogênio (NOx) em Nitrogênio e água.</li>
+              <li>ASC (Ammonia Slip Catalyst): Elimina o excesso de amônia não reagida ao final do circuito para evitar
+                emissões de odor.</li>
+            </ul>
+
+            <div class="thumb" onclick="abrirZoom()">
+              <img id="thumb-img" src="./doc/img/euro 6 e 7.webp" alt="">
+            </div>
+
+            <div class="overlay" id="meuOverlay" onclick="fecharZoom()">
+              <div class="conteudo-ampliado" onclick="event.stopPropagation()">
+                <img src="./doc/img/euro 6 e 7.webp" alt=""><br>
+                <button onclick="fecharZoom()">X</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. As Normas Brasileiras (PROCONVE e PROMOT) -->
+    <section class="slide">
+      <div class="slide-header">
+        <h2>5. As Normas Brasileiras (PROCONVE e PROMOT)</h2>
         <span class="tag-fase">Legislação Nacional</span>
       </div>
       <div class="slide-content">
@@ -235,10 +326,10 @@
       </div>
     </section>
 
-    <!-- 5. Estrutura da Norma: Os 4 Pilares da Euro 7 -->
+    <!-- 6. Estrutura da Norma: Os 4 Pilares da Euro 7 -->
     <section class="slide">
       <div class="slide-header">
-        <h2>5. Estrutura da Norma: Os 4 Pilares da Euro 7</h2>
+        <h2>6. Estrutura da Norma: Os 4 Pilares da Euro 7</h2>
         <span class="tag-fase">Pilares Fundamentais</span>
       </div>
       <div class="slide-content">
@@ -272,10 +363,10 @@
       </div>
     </section>
 
-    <!-- 6. Transporte Comercial: Caminhões e Ônibus -->
+    <!-- 7. Transporte Comercial: Caminhões e Ônibus -->
     <section class="slide">
       <div class="slide-header">
-        <h2>6. Transporte Comercial: Caminhões e Ônibus</h2>
+        <h2>7. Transporte Comercial: Caminhões e Ônibus</h2>
         <span class="tag-fase">Veículos Pesados</span>
       </div>
       <div class="slide-content">
@@ -297,10 +388,10 @@
       </div>
     </section>
 
-    <!-- 7. Veículos Elétricos e Saúde da Bateria -->
+    <!-- 8. Veículos Elétricos e Saúde da Bateria -->
     <section class="slide">
       <div class="slide-header">
-        <h2>7. Veículos Elétricos e Saúde da Bateria</h2>
+        <h2>8. Veículos Elétricos e Saúde da Bateria</h2>
         <span class="tag-fase">EVs & Híbridos</span>
       </div>
       <div class="slide-content">
@@ -324,10 +415,10 @@
       </div>
     </section>
 
-    <!-- 8. Compliance em Tempo Real (OBM & Auditoria) -->
+    <!-- 9. Compliance em Tempo Real (OBM & Auditoria) -->
     <section class="slide">
       <div class="slide-header">
-        <h2>8. Compliance em Tempo Real (OBM & Auditoria)</h2>
+        <h2>9. Compliance em Tempo Real (OBM & Auditoria)</h2>
         <span class="tag-fase">Tecnologia Embarcada</span>
       </div>
       <div class="slide-content">
@@ -349,10 +440,10 @@
       </div>
     </section>
 
-    <!-- 9. Engenharia de Soluções: Freios e Pneus -->
+    <!-- 10. Engenharia de Soluções: Freios e Pneus -->
     <section class="slide">
       <div class="slide-header">
-        <h2>9. Engenharia de Soluções: Freios e Pneus</h2>
+        <h2>10. Engenharia de Soluções: Freios e Pneus</h2>
         <span class="tag-fase">Inovação de Materiais</span>
       </div>
       <div class="slide-content">
@@ -381,10 +472,10 @@
       </div>
     </section>
 
-    <!-- 10. Resumo dos Limites de Emissões Euro 7 -->
+    <!-- 11. Resumo dos Limites de Emissões Euro 7 -->
     <section class="slide">
       <div class="slide-header">
-        <h2>10. Resumo dos Limites de Emissões Euro 7</h2>
+        <h2>11. Resumo dos Limites de Emissões Euro 7</h2>
         <span class="tag-fase">Tabela Regulatória</span>
       </div>
       <div class="slide-content">
@@ -435,10 +526,10 @@
       </div>
     </section>
 
-    <!-- 11. Tendência do Diesel e Substitutos Viáveis -->
+    <!-- 12. Tendência do Diesel e Substitutos Viáveis -->
     <section class="slide">
       <div class="slide-header">
-        <h2>11. Tendência do Diesel e Substitutos Viáveis</h2>
+        <h2>12. Tendência do Diesel e Substitutos Viáveis</h2>
         <span class="tag-fase">Descarbonização</span>
       </div>
       <div class="slide-content">
@@ -463,10 +554,10 @@
       </div>
     </section>
 
-    <!-- 12. Benefícios Esperados & Desafios Econômicos -->
+    <!-- 13. Benefícios Esperados & Desafios Econômicos -->
     <section class="slide">
       <div class="slide-header">
-        <h2>12. Benefícios Esperados & Desafios Econômicos</h2>
+        <h2>13. Benefícios Esperados & Desafios Econômicos</h2>
         <span class="tag-fase">Impacto Global</span>
       </div>
       <div class="slide-content">
@@ -499,10 +590,10 @@
       </div>
     </section>
 
-    <!-- 13. Planejamento e Roteiro de Transição -->
+    <!-- 14. Planejamento e Roteiro de Transição -->
     <section class="slide">
       <div class="slide-header">
-        <h2>13. Planejamento e Roteiro de Transição</h2>
+        <h2>14. Planejamento e Roteiro de Transição</h2>
         <span class="tag-fase">Estratégia Operacional</span>
       </div>
       <div class="slide-content">
@@ -526,10 +617,10 @@
       </div>
     </section>
 
-    <!-- 14. Estudo de Caso: Toyota Mirai e Infraestrutura H₂ -->
+    <!-- 15. Estudo de Caso: Toyota Mirai e Infraestrutura H₂ -->
     <section class="slide">
       <div class="slide-header">
-        <h2>14. Estudo de Caso: Toyota Mirai e Infraestrutura H₂</h2>
+        <h2>15. Estudo de Caso: Toyota Mirai e Infraestrutura H₂</h2>
         <span class="tag-fase">Exemplo Prático</span>
       </div>
       <div class="slide-content">
@@ -672,6 +763,17 @@
       updateSlide();
     };
   </script>
+
+  <script>
+    function abrirZoom() {
+      document.getElementById('meuOverlay').classList.add('ativo');
+    }
+
+    function fecharZoom() {
+      document.getElementById('meuOverlay').classList.remove('ativo');
+    }
+  </script>
+
 </body>
 
 </html>
