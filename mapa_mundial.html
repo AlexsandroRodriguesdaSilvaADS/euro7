@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-950 text-slate-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Global de Emissões Industriais e Frotas Diesel</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0B0F19',
+                            card: '#161F30',
+                            accent: '#F59E0B', // Amber for emissions
+                            cyan: '#06B6D4',   // Cyan for fleets
+                            emerald: '#10B981',
+                            rose: '#F43F5E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <link rel="stylesheet" href="mapa.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+</head>
+
+<body class="h-full flex flex-col font-sans overflow-hidden bg-slate-950 text-slate-100">
+
+    <header
+        class="bg-slate-900/90 border-b border-slate-800 px-4 py-3 flex flex-wrap items-center justify-between z-30 shrink-0 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+            <div class="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-500">
+                <i class="fa-solid me-1 fa-sm fa-industry text-lg"></i>
+                <i class="fa-solid fa-truck-front text-lg"></i>
+            </div>
+            <div>
+                <h1 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                    Observatório Global de Emissões & Frotas
+                    <span
+                        class="text-xs font-normal px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 hidden sm:inline-block">Euro
+                        & Proconve</span>
+                </h1>
+                <p class="text-xs text-slate-400">Monitoramento de Poluentes Regulados (NOx, PM, CO, HC) e Logística
+                    Pesada</p>
+            </div>
+        </div>
+
+        <!-- Right Header Stats / Quick Info -->
+        <div class="hidden md:flex items-center gap-6 text-xs">
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block animate-pulse"></span>
+                <span class="text-slate-400">Pólos Industriais: <strong class="text-slate-200"
+                        id="total-hotspots-count">0</strong></span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span>
+                <span class="text-slate-400">Países Analisados: <strong class="text-slate-200"
+                        id="total-fleets-count">0</strong></span>
+            </div>
+            <div class="flex items-center gap-2 bg-slate-800 px-2.5 py-1 rounded border border-slate-700">
+                <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                <span class="text-slate-300">Normas Ativas: Proconve P-8 / Euro VI</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 flex flex-col md:flex-row relative overflow-hidden">
+
+        <!-- Sidebar Controls & Info Panel -->
+        <aside id="sidebar"
+            class="w-full md:w-96 bg-slate-900 border-r border-slate-800 flex flex-col z-20 shrink-0 absolute md:relative inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+
+            <!-- Sidebar Header & Layer Toggles -->
+            <div class="p-4 border-b border-slate-800 space-y-3 bg-slate-900/50">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Camadas do Mapa</span>
+                    <button id="close-sidebar-mobile" class="md:hidden text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Toggle Buttons -->
+                <div class="grid grid-cols-2 gap-2">
+                    <button id="toggle-hotspots"
+                        class="flex items-center justify-center gap-2 py-2 px-3 rounded-lg border text-xs font-medium transition-all bg-amber-500/10 border-amber-500 text-amber-400 hover:bg-amber-500/20">
+                        <i class="fa-solid fa-industry"></i>
+                        <span>Pólos Industriais</span>
+                    </button>
+                    <button id="toggle-fleets"
+                        class="flex items-center justify-center gap-2 py-2 px-3 rounded-lg border text-xs font-medium transition-all bg-cyan-500/10 border-cyan-500 text-cyan-400 hover:bg-cyan-500/20">
+                        <i class="fa-solid fa-truck"></i>
+                        <span>Frotas Diesel</span>
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="space-y-2 pt-1">
+                    <div class="relative">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-xs text-slate-500"></i>
+                        <input type="text" id="search-input" placeholder="Buscar região, país ou pólo..."
+                            class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-slate-600">
+                    </div>
+
+                    <div class="flex gap-1 overflow-x-auto pb-1 text-[11px]" id="pollutant-filters">
+                        <button data-pollutant="ALL"
+                            class="filter-btn active px-2.5 py-1 rounded bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 whitespace-nowrap">Todos</button>
+                        <button data-pollutant="NOx"
+                            class="filter-btn px-2.5 py-1 rounded bg-slate-950 border border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">NOx</button>
+                        <button data-pollutant="PM"
+                            class="filter-btn px-2.5 py-1 rounded bg-slate-950 border border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">PM2.5/10</button>
+                        <button data-pollutant="CO"
+                            class="filter-btn px-2.5 py-1 rounded bg-slate-950 border border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">CO</button>
+                        <button data-pollutant="HC"
+                            class="filter-btn px-2.5 py-1 rounded bg-slate-950 border border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-800 whitespace-nowrap">HC
+                            / SOx</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Dynamic Content (Details Panel / Item List) -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-4" id="sidebar-content">
+
+                <!-- Default Welcome & Guide State -->
+                <div id="default-info" class="space-y-4">
+                    <!--<div class="p-3 bg-slate-950/60 border border-slate-800 rounded-xl">
+                        <h3 class="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1">Instruções de
+                            Navegação</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Clique em um <strong>Pólo Industrial</strong> (marcador âmbar/laranja) ou em um <strong>País
+                                com Frota Diesel</strong> (ícone azul/ciano) no mapa para visualizar estatísticas
+                            completas de emissões, normas aplicáveis e níveis de impacto ambiental.
+                        </p>
+                    </div>-->
+
+                    <div class="space-y-2">
+                        <h4 class="text-xs font-medium text-slate-300 uppercase tracking-wider">Pólos Industriais em
+                            Destaque</h4>
+                        <div id="quick-hotspots-list" class="space-y-1.5">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 pt-2">
+                        <h4 class="text-xs font-medium text-slate-300 uppercase tracking-wider">Maiores Frotas de
+                            Caminhões Diesel</h4>
+                        <div id="quick-fleets-list" class="space-y-1.5">
+                            <!-- Populated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Item Details Panel (Hidden by default) -->
+                <div id="detail-panel" class="hidden space-y-4">
+                    <button id="back-to-list"
+                        class="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Voltar à lista geral
+                    </button>
+
+                    <div id="detail-card" class="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-3">
+                        <!-- Content inserted dynamically via JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sidebar Footer / Standards Summary -->
+            <div
+                class="p-3 border-t border-slate-800 bg-slate-950 text-[11px] text-slate-500 flex justify-between items-center">
+                <span>Normas: Euro VI / Proconve P-8 (L-7)</span>
+                <span class="text-slate-400 font-mono">HTML5 / Leaflet</span>
+            </div>
+        </aside>
+
+        <!-- Mobile Sidebar Toggle Overlay Button -->
+        <button id="open-sidebar-mobile"
+            class="md:hidden absolute top-3 left-3 z-10 bg-slate-900 text-slate-200 p-2.5 rounded-lg border border-slate-700 shadow-lg">
+            <i class="fa-solid fa-bars text-base"></i>
+        </button>
+
+        <div class="flex-1 h-full relative">
+            <div id="map" class="w-full h-full z-0"></div>
+
+            <!-- Floating Legend on Map (Bottom Right) -->
+            <div
+                class="absolute bottom-6 right-6 z-10 bg-slate-900/90 backdrop-blur-md border border-slate-800 p-3 rounded-xl shadow-2xl max-w-xs text-xs space-y-2 hidden sm:block">
+                <div
+                    class="font-semibold text-slate-200 border-b border-slate-800 pb-1 flex justify-between items-center">
+                    <span>Legenda do Mapa</span>
+                    <i class="fa-solid fa-layer-group text-slate-500"></i>
+                </div>
+
+                <div class="space-y-1.5 text-[11px]">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-amber-500 border border-amber-300 inline-block"></span>
+                        <span class="text-slate-300">Pólo Industrial (Gases Tóxicos Regulados)</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-cyan-400 border border-cyan-200 inline-block"></span>
+                        <span class="text-slate-300">Frota Pesada Diesel (Caminhões/Ônibus)</span>
+                    </div>
+                </div>
+
+                <div class="pt-1 border-t border-slate-800/80 text-[10px] text-slate-400 space-y-1">
+                    <p class="font-semibold text-slate-300">Gases Monitorados:</p>
+                    <div class="grid grid-cols-2 gap-x-2 gap-y-0.5">
+                        <span>• <strong>NOx:</strong> Óxidos de Nitrogênio</span>
+                        <span>• <strong>PM:</strong> Material Particulado</span>
+                        <span>• <strong>CO:</strong> Monóxido de Carbono</span>
+                        <span>• <strong>HC/SOx:</strong> Hidrocarb./Enxofre</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* DATA SETS FOR INDUSTRIAL HOTSPOTS AND DIESEL FLEETS */
+
+        // Major global industrial hotspots emitting Euro/Proconve regulated gases
+        const industrialHotspots = [
+            {
+                id: 'ind-1',
+                name: 'Complexo Industrial Cubatão / ABC Paulista',
+                region: 'São Paulo, Brasil',
+                coords: [-23.89, -46.42],
+                country: 'Brasil',
+                applicableNorms: 'Proconve L-7 / P-8 (Euro VI equivalente)',
+                dominantPollutants: ['NOx', 'PM', 'CO', 'SOx'],
+                emissionsIndex: 'Muito Elevado (Crítico Historicamente)',
+                description: 'Um dos maiores complexos petroquímicos e siderúrgicos da América Latina. Historicamente conhecido pela poluição atmosférica severa, hoje sob rígido controle da CETESB sob diretrizes Proconve.',
+                keyIndustries: 'Petroquímica, Siderurgia, Fertilizantes, Cimento',
+                annualTonnage: '~450.000 ton/ano de poluentes atmosféricos combinados'
+            },
+            {
+                id: 'ind-2',
+                name: 'Cinturão Industrial do Leste Chinês (Hebei-Tangshan)',
+                region: 'Pequim-Tianjin-Hebei, China',
+                coords: [39.63, 118.18],
+                country: 'China',
+                applicableNorms: 'China VI (Alinhado ao Euro VI)',
+                dominantPollutants: ['PM', 'NOx', 'SOx', 'CO'],
+                emissionsIndex: 'Extremamente Elevado',
+                description: 'Maior concentração de produção de aço e carvão do mundo. Responsável por densas plumas de Material Particulado (PM2.5) e altas concentrações de NOx.',
+                keyIndustries: 'Siderúrgicas, Usinas a Carvão, Fabricação Pesada',
+                annualTonnage: '>2.500.000 ton/ano'
+            },
+            {
+                id: 'ind-3',
+                name: 'Vale do Ruhr / Bacia Mineira da Silésia',
+                region: 'Alemanha & Polônia (Europa Central)',
+                coords: [51.45, 7.01],
+                country: 'Alemanha / Polônia',
+                applicableNorms: 'Euro VI / Diretriz IED da UE',
+                dominantPollutants: ['NOx', 'CO', 'PM', 'HC'],
+                emissionsIndex: 'Elevado (Em Transição Energética)',
+                description: 'Coração histórico da indústria pesada europeia. Embora sob rigorosas diretrizes Euro VI, mantém alto tráfego de caminhões e emissões industriais residuais.',
+                keyIndustries: 'Autopeças, Química, Engenharia Pesada, Energia',
+                annualTonnage: '~600.000 ton/ano'
+            },
+            {
+                id: 'ind-4',
+                name: 'Cinturão do Ferrugem (Rust Belt) & Costa do Golfo',
+                region: 'Midwest & Texas/Louisiana, EUA',
+                coords: [29.76, -95.36],
+                country: 'Estados Unidos',
+                applicableNorms: 'US EPA Tier 3 / Clean Air Act',
+                dominantPollutants: ['NOx', 'HC', 'VOC', 'PM'],
+                emissionsIndex: 'Muito Elevado',
+                description: 'Abrigando refinarias maciças de petróleo ao longo do Golfo e indústrias automotivas/siderúrgicas no Centro-Oeste norte-americano.',
+                keyIndustries: 'Refino de Petróleo, Petroquímica, Manufatura Pesada',
+                annualTonnage: '>1.800.000 ton/ano'
+            },
+            {
+                id: 'ind-5',
+                name: 'Região Industrial de Chotanagpur',
+                region: 'Jharkhand & Bengala Ocidental, Índia',
+                coords: [23.34, 85.30],
+                country: 'Índia',
+                applicableNorms: 'Bharat Stage VI (BS-VI / Euro VI)',
+                dominantPollutants: ['PM', 'NOx', 'SOx', 'CO'],
+                emissionsIndex: 'Extremamente Elevado',
+                description: 'O "Ruhr da Índia". Alta densidade de mineração de carvão, usinas térmicas e indústrias pesadas gerando altos níveis de fuligem e gases tóxicos.',
+                keyIndustries: 'Mineração, Siderurgia, Metalurgia, Energia a Carvão',
+                annualTonnage: '>1.500.000 ton/ano'
+            },
+            {
+                id: 'ind-6',
+                name: 'Zona Industrial de Keihin (Tóquio-Yokohama)',
+                region: 'Kanto, Japão',
+                coords: [35.53, 139.70],
+                country: 'Japão',
+                applicableNorms: 'Post New Long-Term Regulations (Equiv. Euro VI)',
+                dominantPollutants: ['NOx', 'HC', 'CO'],
+                emissionsIndex: 'Moderado a Elevado (Altamente Controlado)',
+                description: 'Apesar do alto volume industrial, possui tecnologias extremas de filtragem (EGR/SCR) exigidas por leis severas de qualidade do ar.',
+                keyIndustries: 'Eletrônica, Construção Naval, Petroquímica, Automotiva',
+                annualTonnage: '~300.000 ton/ano'
+            },
+            {
+                id: 'ind-7',
+                name: 'Distrito Industrial dos Urais (Chelyabinsk/Yekaterinburg)',
+                region: 'Urais, Rússia',
+                coords: [55.16, 61.40],
+                country: 'Rússia',
+                applicableNorms: 'GOST / Euro 4 - Euro 5 (Em transição)',
+                dominantPollutants: ['SOx', 'NOx', 'PM', 'HC'],
+                emissionsIndex: 'Elevado',
+                description: 'Centro de metalurgia não-ferrosa e processamento de minérios pesados na Rússia com normas ambientais em modernização.',
+                keyIndustries: 'Siderurgia, Química, Fundição de Metais Raros',
+                annualTonnage: '~900.000 ton/ano'
+            },
+            {
+                id: 'ind-8',
+                name: 'Complexo Carboquímico de Secunda',
+                region: 'Mpumalanga, África do Sul',
+                coords: [-26.55, 29.17],
+                country: 'África do Sul',
+                applicableNorms: 'NEMA Minimum Emission Standards (MES)',
+                dominantPollutants: ['SOx', 'NOx', 'PM', 'CO'],
+                emissionsIndex: 'Extremo (Ponto Fixo Individual)',
+                description: 'A maior planta do planeta de síntese de combustíveis e químicos a partir de carvão mineral, gerando uma alta concentração pontual de gases industriais e poeira.',
+                keyIndustries: 'Sintetização de Combustível (CTL), Química, Mineração de Carvão',
+                annualTonnage: '~3.500.000 ton/ano'
+            },
+            {
+                id: 'ind-9',
+                name: 'Cidade Industrial de Jubail',
+                region: 'Província Oriental, Arábia Saudita',
+                coords: [27.01, 49.65],
+                country: 'Arábia Saudita',
+                applicableNorms: 'GAMEP Environmental Standards / Padrões GCC',
+                dominantPollutants: ['SOx', 'NOx', 'HC', 'PM'],
+                emissionsIndex: 'Muito Elevado',
+                description: 'A maior cidade industrial petroquímica do mundo. Apresenta altas taxas de emissões de compostos orgânicos voláteis e gases industriais de processo.',
+                keyIndustries: 'Petroquímica, Plásticos, Metalurgia de Alumínio, Dessalinização',
+                annualTonnage: '~3.200.000 ton/ano'
+            },
+            {
+                id: 'ind-10',
+                name: 'Distrito Industrial de Ulsan',
+                region: 'Gyeongsang, Coreia do Sul',
+                coords: [35.53, 129.31],
+                country: 'Coreia do Sul',
+                applicableNorms: 'Korea Stage V / Alinhado à Euro 7',
+                dominantPollutants: ['NOx', 'PM', 'VOCs', 'Brake PM'],
+                emissionsIndex: 'Elevado',
+                description: 'Maior complexo industrial integrado da Coreia do Sul, abrigando refinarias, a maior fábrica automotiva do mundo e estaleiros navais.',
+                keyIndustries: 'Automotiva, Construção Naval, Refino de Petróleo, Petroquímica',
+                annualTonnage: '~1.500.000 ton/ano'
+            },
+            {
+                id: 'ind-11',
+                name: 'Complexo Petroquímico e Refino de Gujarat',
+                region: 'Gujarat, Índia',
+                coords: [22.25, 71.19],
+                country: 'Índia',
+                applicableNorms: 'Bharat Stage VI (BS-VI / Euro VI equivalente)',
+                dominantPollutants: ['SOx', 'NOx', 'PM10', 'NH3'],
+                emissionsIndex: 'Extremo',
+                description: 'Concentra algumas das maiores refinarias de petróleo e plantas petroquímicas do mundo, com elevada emissão de dióxido de enxofre e óxidos de nitrogênio.',
+                keyIndustries: 'Refino de Petróleo, Petroquímica, Fertilizantes, Textil',
+                annualTonnage: '~2.800.000 ton/ano'
+            },
+            {
+                id: 'ind-12',
+                name: 'Triângulo Industrial do Vale do Pó',
+                region: 'Lombardia / Piemonte, Itália',
+                coords: [45.46, 9.19],
+                country: 'Itália',
+                applicableNorms: 'Euro 6d / Euro 7',
+                dominantPollutants: ['NOx', 'PM2.5', 'NH3', 'Brake PM'],
+                emissionsIndex: 'Muito Elevado (Acentuado por Fatores Geográficos)',
+                description: 'Bacia hidrográfica cercada por montanhas que aprisionam poluentes atmosféricos. A área possui forte concentração industrial e tráfego intenso de veículos comerciais.',
+                keyIndustries: 'Automotiva, Manufatura Pesada, Metalmecânica, Química',
+                annualTonnage: '~850.000 ton/ano'
+            },
+            {
+                id: 'ind-13',
+                name: 'Cinturão Industrial do Midwest (Rust Belt)',
+                region: 'Garry / Chicago / Detroit, EUA',
+                coords: [41.6, -87.34],
+                country: 'EUA',
+                applicableNorms: 'US EPA Tier 4 / CARB Heavy-Duty Omnibus',
+                dominantPollutants: ['NOx', 'PM', 'CO', 'SOx', 'Brake PM'],
+                emissionsIndex: 'Elevado',
+                description: 'Histórico coração da indústria de transformação e siderurgia pesada dos EUA, com imenso entroncamento logístico e circulação constante de caminhões comerciais a diesel.',
+                keyIndustries: 'Siderurgia, Automotiva, Fundição, Processamento de Metais',
+                annualTonnage: '~1.300.000 ton/ano'
+            },
+            {
+                id: 'ind-14',
+                name: 'Corredor Petroquímico do Golfo (Cancer Alley)',
+                region: 'Louisiana, EUA',
+                coords: [30.05, -90.51],
+                country: 'EUA',
+                applicableNorms: 'US EPA Cleaner Trucks Initiative / Heavy-Duty 2027',
+                dominantPollutants: ['NOx', 'PM2.5', 'VOCs', 'Brake PM', 'Tyre Microplastics'],
+                emissionsIndex: 'Extremo',
+                description: 'Faixa com mais de 150 refinarias e plantas químicas entre Baton Rouge e New Orleans. Tráfego intenso de caminhões Classe 8 e transporte hidroviário gera alta carga de orgânicos voláteis e material particulado.',
+                keyIndustries: 'Refino de Petróleo, Petroquímica, Plásticos, Fertilizantes',
+                annualTonnage: '~2.500.000 ton/ano de emissões industriais e veiculares'
+            },
+        ];
+
+        // Countries with largest heavy-duty diesel truck fleets
+        const dieselFleets = [
+            {
+                id: 'flt-1',
+                country: 'China',
+                region: 'Ásia Oriental',
+                coords: [35.86, 104.19],
+                fleetSizeMillions: '44.0 M (Caminhões Pesados ~9.000 + Caminhões Leves ~35.000)',
+                fleetDescription: 'Maior frota de veículos comerciais pesados a diesel do planeta. Responsável por alto volume de logística interna.',
+                dominantStandard: 'China VI (Equivalente ao Euro VI)',
+                keyPollutantsTargeted: 'NOx (Redução com Arla 32/AdBlue), Material Particulado (Filtros DPF)',
+                trend: 'Transição rápida para caminhões elétricos urbanos e a GNV/Elétricos de grande porte.'
+            },
+            {
+                id: 'flt-2',
+                country: 'Estados Unidos',
+                region: 'América do Norte',
+                coords: [37.09, -95.71],
+                fleetSizeMillions: '19.3 M (Caminhonetes ~4.500 + Caminhões ~13.850 + Ônibus ~950 mil; American Trucking Associations - ATA, Federal Highway Administration (FHWA / U.S. DOT), Alternative Fuels Data Center (AFDC) / U.S. DOE)',
+                fleetDescription: 'Rede logística de longa distância dependente de caminhões Classe 8 (Class 8 Diesel Trucks).',
+                dominantStandard: 'EPA 2027 / CARB (Califórnia Heavy-Duty Rule)',
+                keyPollutantsTargeted: 'Ultra-low NOx, Particulados finos e CO2',
+                trend: 'Foco rigoroso da Califórnia (CARB) forçando padrões globais de zero emissões.'
+            },
+            {
+                id: 'flt-3',
+                country: 'Brasil',
+                region: 'América do Sul',
+                coords: [-14.23, -51.92],
+                fleetSizeMillions: '5.65 M (Caminhões ~2.150 + Comerciais Leves a Diesel (Pick-ups 4x4, Furgões, Vans) ~3.100 + Ônibus e Micro-ônibus ~400 mil; SINDIPEÇAS, Associação Nacional dos Fabricantes de Veículos Automotores - ANFAVEA)',
+                fleetDescription: 'Dependência do modal rodoviário para escoamento agrícola e industrial (mais de 65% das cargas).',
+                dominantStandard: 'Proconve P-8 (Baseado no Euro VI, desde 2023)',
+                keyPollutantsTargeted: 'Redução de 80% de NOx e 50% de PM em relação ao Proconve P-7 (Euro V)',
+                trend: 'Adoção de tecnologia SCR com Arla 32 e expansão de biodiesel/gás natural (RodoTrem).'
+            },
+            {
+                id: 'flt-4',
+                country: 'Índia',
+                region: 'Ásia Meridional',
+                coords: [20.59, 78.96],
+                fleetSizeMillions: '23.0 M (Pesados ~5.800 + Leves ~17.200; MoRTH / Portal VAHAN (Ministry of Road Transport and Highways), SIAM (Society of Indian Automobile Manufacturers), NITI Aayog (Think Tank do Governo Indiano) & PPAC)',
+                fleetDescription: 'Crescimento acelerado do transporte rodoviário suportando a rápida expansão infraestrutural do país.',
+                dominantStandard: 'Bharat Stage VI (BS-VI / Alinhado ao Euro VI)',
+                keyPollutantsTargeted: 'Corte radical de enxofre no diesel (10 ppm) e NOx urbano',
+                trend: 'Salto direto do BS-IV para o BS-VI para acelerar despoluição de grandes metrópoles.'
+            },
+            {
+                id: 'flt-5',
+                country: 'Alemanha',
+                region: 'Europa Ocidental',
+                coords: [51.16, 10.45],
+                fleetSizeMillions: '17.2 M (Passeio ~13.400 + Caminhões ~3.800; KBA (Kraftfahrt-Bundesamt), VDA (Verband der Automobilindustrie), UBA (Umweltbundesamt))',
+                fleetDescription: 'Hub logístico central da União Europeia com tráfego intenso de caminhões transfronteiriços.',
+                dominantStandard: 'Euro VI / Euro VII (Aprovado para 2026/2027)',
+                keyPollutantsTargeted: 'Controle contínuo em tempo real (PEMS) de NOx, NH3 e Particulados ultrafinos',
+                trend: 'Pedágios ambientais (LKW-Maut) baseados nas emissões de CO2 e poluentes regulados.'
+            },
+            {
+                id: 'flt-6',
+                country: 'Rússia',
+                region: 'Eurásia',
+                coords: [61.52, 105.31],
+                fleetSizeMillions: '10.0 M (Pesados ~3.000 + Leves ~7.000; AUTOSTAT, Rosstat (Serviço Federal de Estatísticas do Estado Russo) & NAMI, AEB (Association of European Businesses / Commercial Vehicles Committee in Russia)',
+                fleetDescription: 'Grandes frotas rodoviárias de carga pesada operando em distâncias continentais em condições extremas.',
+                dominantStandard: 'Euro 4 / Euro 5 (Normas GOST R)',
+                keyPollutantsTargeted: 'Monóxido de Carbono, Hidrocarbonetos e Enxofre no Diesel',
+                trend: 'Desafios na renovação de frota e padronização com rígidos sistemas Euro VI.'
+            },
+            {
+                id: 'flt-7',
+                country: 'Japão',
+                region: 'Ásia Oriental',
+                coords: [36.20, 138.25],
+                fleetSizeMillions: '7.8 M (Pesados e Médios ~5.300 + Leves ~2.000 + Ônibus ~220 mil; MLIT / AIRIA (Ministry of Land, Infrastructure, Transport and Tourism), JAMA (Japan Automobile Manufacturers Association), JADA (Japan Automobile Dealers Association))',
+                fleetDescription: 'Frota altamente eficiente e com rápida taxa de renovação tecnológica nas autoestradas.',
+                dominantStandard: 'Post New Long-Term Emissions Standards',
+                keyPollutantsTargeted: 'PM2.5, Óxidos de Nitrogênio e Hidrocarbonetos não queimados',
+                trend: 'Pioneiros em caminhões médios a hidrogênio células de combustível e híbridos diesel.'
+            },
+            {
+                id: 'flt-8',
+                country: 'Itália',
+                region: 'Europa Meridional',
+                coords: [41.90, 12.50],
+                fleetSizeMillions: '21.8 M (Passeio ~17.000 + Leves e Furgões ~3.700 + Pesados ~1.000 + Ônibus ~100 mil; ACI / PRA (Automobile Club d\'Italia / Pubblico Registro Automobilistico), UNRAE, ISPRA)',
+                fleetDescription: 'Uma das maiores frotas de automóveis a diesel da Europa, com forte concentração de transporte comercial na Bacia do Vale do Pó.',
+                dominantStandard: 'Euro 6d / Diretrizes Euro 7',
+                keyPollutantsTargeted: 'Óxidos de Nitrogênio (NOx), Material Particulado (PM2.5/PM10), Amônia (NH3) e Partículas de Frenagem',
+                trend: 'Renovação acelerada do transporte de carga para Euro VI e restrições de circulação urbana em áreas de alta poluição.'
+            },
+            {
+                id: 'flt-9',
+                country: 'África do Sul',
+                region: 'África Subsaariana',
+                coords: [-30.55, 22.93],
+                fleetSizeMillions: '3.8 M (Comerciais Leves/Bakkies ~2.500 + Pesados ~400 mil + Ônibus/Taxis ~300 mil + Passeio ~600 mil; eNaTIS / Department of Transport (DoT), naamsa (The Automotive Business Council))',
+                fleetDescription: 'Maior e mais industrializada frota comercial a diesel do continente africano, fortemente concentrada no transporte rodoviário de cargas minerais e agrícolas.',
+                dominantStandard: 'SANS 10281 / Transição Euro IV a Euro VI',
+                keyPollutantsTargeted: 'Óxidos de Nitrogênio (NOx), Material Particulado (PM) e Dióxido de Enxofre (SOx)',
+                trend: 'Modernização gradual da frota rodoviária de longa distância e pressão por combustíveis com menor teor de enxofre (50ppm para 10ppm).'
+            }
+        ];
+
+        let map;
+        let hotspotsLayerGroup;
+        let fleetsLayerGroup;
+        let activePollutantFilter = 'ALL';
+        let showHotspots = true;
+        let showFleets = true;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initMap();
+            renderQuickLists();
+            setupEventListeners();
+            updateStatsHeader();
+        });
+
+        // Initialize Leaflet Map
+        function initMap() {
+            // Dark map tiles (Canvas nativo)
+            map = L.map('map', {
+                center: [20, 10],
+                zoom: 2,
+                minZoom: 2,
+                maxZoom: 10,
+                zoomControl: false
+            });
+
+            // Position zoom buttons top-right
+            L.control.zoom({ position: 'topright' }).addTo(map);
+
+            //ATUALIZADO
+            /*L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                 subdomains: 'abcd',
+                 maxZoom: 19
+             }).addTo(map);*/
+
+            //ATUALIZAÇÃO 1
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+                maxZoom: 16
+            }).addTo(map);
+
+            hotspotsLayerGroup = L.layerGroup().addTo(map);
+            fleetsLayerGroup = L.layerGroup().addTo(map);
+
+            renderMarkers();
+        }
+
+        function renderMarkers() {
+            hotspotsLayerGroup.clearLayers();
+            fleetsLayerGroup.clearLayers();
+
+            // Render Industrial Hotspots
+            if (showHotspots) {
+                industrialHotspots.forEach(hotspot => {
+                    // Check pollutant filter
+                    if (activePollutantFilter !== 'ALL' && !hotspot.dominantPollutants.includes(activePollutantFilter)) {
+                        return;
+                    }
+
+                    // Custom Amber Icon for Industrial Hotspots
+                    const customIcon = L.divIcon({
+                        className: 'custom-hotspot-marker',
+                        html: `
+                            <div class="relative flex items-center justify-center w-8 h-8">
+                                <div class="absolute w-8 h-8 bg-amber-500/30 border border-amber-500 pulse-marker"></div>
+                                <div class="w-5 h-5 bg-amber-500 text-slate-950 rounded-full flex items-center justify-center text-[10px] font-bold shadow-lg border border-amber-300">
+                                    <i class="fa-solid fa-industry"></i>
+                                </div>
+                            </div>
+                        `,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    });
+
+                    const marker = L.marker(hotspot.coords, { icon: customIcon });
+
+                    // Popup Content
+                    const popupHtml = `
+                        <div class="space-y-1.5">
+                            <span class="text-[10px] uppercase font-semibold text-amber-400 tracking-wider">Pólo Industrial Emissor</span>
+                            <h3 class="font-bold text-sm text-white">${hotspot.name}</h3>
+                            <p class="text-xs text-slate-300"><i class="fa-solid fa-location-dot text-slate-400 me-1"></i>${hotspot.region}</p>
+                            <div class="flex flex-wrap gap-1 pt-1">
+                                ${hotspot.dominantPollutants.map(p => `<span class="px-1.5 py-0.5 text-[9px] font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded">${p}</span>`).join('')}
+                            </div>
+                            <button onclick="selectItem('hotspot', '${hotspot.id}')" class="mt-2 w-full py-1 text-xs bg-slate-800 hover:bg-slate-700 text-amber-400 font-medium rounded border border-slate-700 transition">
+                                Ver Detalhes Completos <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    marker.bindPopup(popupHtml);
+                    marker.on('click', () => {
+                        selectItem('hotspot', hotspot.id);
+                    });
+
+                    hotspotsLayerGroup.addLayer(marker);
+                });
+            }
+
+            // Render Diesel Fleets
+            if (showFleets) {
+                dieselFleets.forEach(fleet => {
+                    // Custom Cyan Icon for Truck Fleets
+                    const customIcon = L.divIcon({
+                        className: 'custom-fleet-marker',
+                        html: `
+                            <div class="relative flex items-center justify-center w-8 h-8">
+                                <div class="w-6 h-6 bg-cyan-500/20 border border-cyan-400/50 rounded-lg flex items-center justify-center text-cyan-300 shadow-md">
+                                    <i class="fa-solid fa-truck text-xs"></i>
+                                </div>
+                            </div>
+                        `,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    });
+
+                    const marker = L.marker(fleet.coords, { icon: customIcon });
+
+                    const popupHtml = `
+                        <div class="space-y-1.5">
+                            <span class="text-[10px] uppercase font-semibold text-cyan-400 tracking-wider">Frota Diesel de Caminhões</span>
+                            <h3 class="font-bold text-sm text-white">${fleet.country}</h3>
+                            <p class="text-xs text-slate-300">Estimativa: <strong class="text-cyan-300">${fleet.fleetSizeMillions} veículos pesados</strong></p>
+                            <p class="text-[11px] text-slate-400">Norma Vigente: ${fleet.dominantStandard}</p>
+                            <button onclick="selectItem('fleet', '${fleet.id}')" class="mt-2 w-full py-1 text-xs bg-slate-800 hover:bg-slate-700 text-cyan-400 font-medium rounded border border-slate-700 transition">
+                                Ver Estatísticas da Frota <i class="fa-solid fa-chevron-right text-[10px]"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    marker.bindPopup(popupHtml);
+                    marker.on('click', () => {
+                        selectItem('fleet', fleet.id);
+                    });
+
+                    fleetsLayerGroup.addLayer(marker);
+                });
+            }
+        }
+
+        function renderQuickLists() {
+            const hotspotsContainer = document.getElementById('quick-hotspots-list');
+            const fleetsContainer = document.getElementById('quick-fleets-list');
+
+            hotspotsContainer.innerHTML = industrialHotspots.map(h => `
+                <div onclick="selectItem('hotspot', '${h.id}')" class="p-2 rounded-lg bg-slate-950/80 hover:bg-slate-800/80 border border-slate-800/80 cursor-pointer transition flex items-center justify-between group">
+                    <div class="space-y-0.5">
+                        <div class="text-xs font-medium text-slate-200 group-hover:text-amber-400 transition">${h.name}</div>
+                        <div class="text-[10px] text-slate-500">${h.country} • Gases: ${h.dominantPollutants.join(', ')}</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-600 group-hover:text-amber-400"></i>
+                </div>
+            `).join('');
+
+            fleetsContainer.innerHTML = dieselFleets.map(f => `
+                <div onclick="selectItem('fleet', '${f.id}')" class="p-2 rounded-lg bg-slate-950/80 hover:bg-slate-800/80 border border-slate-800/80 cursor-pointer transition flex items-center justify-between group">
+                    <div class="space-y-0.5">
+                        <div class="text-xs font-medium text-slate-200 group-hover:text-cyan-400 transition">${f.country}</div>
+                        <div class="text-[10px] text-slate-500">Frota: ${f.fleetSizeMillions} • Norma: ${f.dominantStandard}</div>
+                    </div>
+                    <i class="fa-solid fa-chevron-right text-[10px] text-slate-600 group-hover:text-cyan-400"></i>
+                </div>
+            `).join('');
+        }
+
+        function selectItem(type, id) {
+            const defaultInfo = document.getElementById('default-info');
+            const detailPanel = document.getElementById('detail-panel');
+            const detailCard = document.getElementById('detail-card');
+
+            defaultInfo.classList.add('hidden');
+            detailPanel.classList.remove('hidden');
+
+            if (type === 'hotspot') {
+                const item = industrialHotspots.find(h => h.id === id);
+                if (!item) return;
+
+                map.flyTo(item.coords, 5, { duration: 1.2 });
+
+                detailCard.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="px-2 py-0.5 text-[10px] font-semibold bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded uppercase">
+                            <i class="fa-solid fa-industry me-1"></i> Pólo Industrial
+                        </span>
+                        <span class="text-[11px] text-slate-400">${item.country}</span>
+                    </div>
+
+                    <h2 class="text-base font-bold text-white">${item.name}</h2>
+                    <p class="text-xs text-slate-400"><i class="fa-solid fa-location-dot me-1 text-slate-500"></i>${item.region}</p>
+
+                    <div class="space-y-2 pt-2">
+                        <div>
+                            <span class="text-[11px] text-slate-500 block">Normas Aplicáveis de Controle:</span>
+                            <span class="text-xs font-medium text-emerald-400">${item.applicableNorms}</span>
+                        </div>
+
+                        <div>
+                            <span class="text-[11px] text-slate-500 block">Principais Poluentes Emitidos:</span>
+                            <div class="flex flex-wrap gap-1 mt-1">
+                                ${item.dominantPollutants.map(p => `<span class="px-2 py-0.5 text-xs font-semibold bg-slate-900 border border-slate-700 text-amber-300 rounded">${p}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div>
+                            <span class="text-[11px] text-slate-500 block">Índice Estimado de Emissões:</span>
+                            <span class="text-xs font-semibold text-rose-400">${item.emissionsIndex}</span>
+                        </div>
+
+                        <div>
+                            <span class="text-[11px] text-slate-500 block">Volume Estimado:</span>
+                            <span class="text-xs text-slate-300 font-mono">${item.annualTonnage}</span>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-800">
+                            <span class="text-[11px] text-slate-500 block mb-1">Setores Predominantes:</span>
+                            <p class="text-xs text-slate-300">${item.keyIndustries}</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-800">
+                            <span class="text-[11px] text-slate-500 block mb-1">Impacto Ambiental & Contexto:</span>
+                            <p class="text-xs text-slate-400 leading-relaxed">${item.description}</p>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'fleet') {
+                const item = dieselFleets.find(f => f.id === id);
+                if (!item) return;
+
+                map.flyTo(item.coords, 4, { duration: 1.2 });
+
+                detailCard.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="px-2 py-0.5 text-[10px] font-semibold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 rounded uppercase">
+                            <i class="fa-solid fa-truck me-1"></i> Frota Diesel
+                        </span>
+                        <span class="text-[11px] text-slate-400">${item.region}</span>
+                    </div>
+
+                    <h2 class="text-base font-bold text-white">${item.country}</h2>
+
+                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-slate-500 uppercase block">Tamanho da Frota Pesada</span>
+                            <span class="text-lg font-bold text-cyan-400 font-mono">${item.fleetSizeMillions}</span>
+                        </div>
+                        <i class="fa-solid fa-truck-moving text-2xl text-slate-700"></i>
+                    </div>
+
+                    <div class="space-y-2 pt-1">
+                        <div>
+                            <span class="text-[11px] text-slate-500 block">Padrão de Emissões Vigente:</span>
+                            <span class="text-xs font-semibold text-emerald-400">${item.dominantStandard}</span>
+                        </div>
+
+                        <div>
+                            <span class="text-[11px] text-slate-500 block">Foco Regulatório (Euro/Proconve):</span>
+                            <p class="text-xs text-slate-300">${item.keyPollutantsTargeted}</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-800">
+                            <span class="text-[11px] text-slate-500 block mb-1">Tendências & Descarbonização:</span>
+                            <p class="text-xs text-slate-300">${item.trend}</p>
+                        </div>
+
+                        <div class="pt-2 border-t border-slate-800">
+                            <span class="text-[11px] text-slate-500 block mb-1">Resumo Logístico:</span>
+                            <p class="text-xs text-slate-400 leading-relaxed">${item.fleetDescription}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Mobile menu collapse after click
+            if (window.innerWidth < 768) {
+                // Ensure sidebar stays open on detail selection so user sees content
+            }
+        }
+
+        function setupEventListeners() {
+            // Layer Toggles
+            const btnHotspots = document.getElementById('toggle-hotspots');
+            const btnFleets = document.getElementById('toggle-fleets');
+
+            btnHotspots.addEventListener('click', () => {
+                showHotspots = !showHotspots;
+                btnHotspots.classList.toggle('opacity-50', !showHotspots);
+                renderMarkers();
+            });
+
+            btnFleets.addEventListener('click', () => {
+                showFleets = !showFleets;
+                btnFleets.classList.toggle('opacity-50', !showFleets);
+                renderMarkers();
+            });
+
+            // Back button in sidebar detail view
+            document.getElementById('back-to-list').addEventListener('click', () => {
+                document.getElementById('detail-panel').classList.add('hidden');
+                document.getElementById('default-info').classList.remove('hidden');
+            });
+
+            // Pollutant Filter Buttons
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterButtons.forEach(b => {
+                        b.classList.remove('bg-slate-800', 'text-slate-200');
+                        b.classList.add('bg-slate-950', 'text-slate-400');
+                    });
+                    btn.classList.remove('bg-slate-950', 'text-slate-400');
+                    btn.classList.add('bg-slate-800', 'text-slate-200');
+
+                    activePollutantFilter = btn.getAttribute('data-pollutant');
+                    renderMarkers();
+                });
+            });
+
+            // Search Filter
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+
+                // Filter Quick Lists
+                const hotspotItems = document.querySelectorAll('#quick-hotspots-list > div');
+                hotspotItems.forEach((el, idx) => {
+                    const h = industrialHotspots[idx];
+                    const match = h.name.toLowerCase().includes(query) || h.country.toLowerCase().includes(query);
+                    el.style.display = match ? 'flex' : 'none';
+                });
+
+                const fleetItems = document.querySelectorAll('#quick-fleets-list > div');
+                fleetItems.forEach((el, idx) => {
+                    const f = dieselFleets[idx];
+                    const match = f.country.toLowerCase().includes(query) || f.region.toLowerCase().includes(query);
+                    el.style.display = match ? 'flex' : 'none';
+                });
+            });
+
+            // Mobile Sidebar Toggles
+            const sidebar = document.getElementById('sidebar');
+            document.getElementById('open-sidebar-mobile').addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+            });
+            document.getElementById('close-sidebar-mobile').addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+            });
+        }
+
+        // Update header counter badges
+        function updateStatsHeader() {
+            document.getElementById('total-hotspots-count').textContent = industrialHotspots.length;
+            document.getElementById('total-fleets-count').textContent = dieselFleets.length;
+        }
+    </script>
+</body>
+
+</html>
