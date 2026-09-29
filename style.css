@@ -109,15 +109,6 @@ body {
     gap: 20px;
 }
 
-.card.caminhao {
-    background: url(./doc/img/caminhao.png) center / cover no-repeat;
-    position: absolute;
-    right: 60px;
-    bottom: 100px;
-    width: 890px;
-    min-height: 40vh;
-}
-
 p,
 li {
     color: var(--cor-texto-principal);
@@ -144,6 +135,13 @@ li {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 20px;
+}
+
+.diesel {
+    background-color: red;
+    background-image: url(./doc/img/diesel.png) center / no-repeat fixed;
+    width: 100%;
+    height: 100%;
 }
 
 .grid-4 {
@@ -183,6 +181,8 @@ li {
     border-radius: var(--raio-borda);
     padding: 20px;
     text-align: center;
+
+    margin: 15px;
 }
 
 .metric-value {
@@ -400,7 +400,6 @@ tr:nth-child(even) {
 
 /* Conteúdo Ampliado no centro */
 .conteudo-ampliado {
-    /*background: white;*/
     color: #333;
     padding: 30px;
     border-radius: 12px;
@@ -415,9 +414,18 @@ tr:nth-child(even) {
 
 button {
     font-size: 10px;
+    color: #0f172a;
 }
 
 @media (max-width: 768px) {
+    * {
+        font-size: 12pt;
+    }
+
+    .overlay {
+        display: none;
+    }
+
     .slide {
         padding: 20px 20px 80px 20px;
     }

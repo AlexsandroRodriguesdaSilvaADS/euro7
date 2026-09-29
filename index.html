@@ -18,6 +18,7 @@
       <div class="autor-badge">Alexsandro Rodrigues da Silva</div>
     </section>
 
+    <!-- 1. Marcos Históricos -->
     <section class="slide">
       <div class="slide-header">
         <h2>1. Marcos Históricos</h2>
@@ -36,7 +37,8 @@
             <h4>2. Meados Do Século XX: As Crises De Poluição E A Saúde Pública (1940–1960)</h4>
             <p>Com a expansão da indústria pesada e do uso do carvão e petróleo no século XX, grandes episódios críticos
               de poluição chamaram a atenção global para os perigos dos gases industriais e do smog.
-              <br> O Grande Smog de Londres (1952): Uma densa camada de fuligem e dióxido de enxofre (SO2) decorrente da
+              <br> O Grande Smog de Londres (1952): Uma densa camada de fuligem e dióxido de enxofre (SO<sub>2</sub>)
+              decorrente da
               queima industrial e residencial matou milhares de pessoas em poucos dias. Esse desastre motivou o Reino
               Unido a aprovar o Clean Air Act em 1956.
             </p>
@@ -47,14 +49,15 @@
               para se tornar uma pauta diplomática internacional:
             <ul>
               <li>Conferência de Estocolmo (1972): A Organização das Nações Unidas (ONU) realizou a primeira grande
-                conferência com foco na chuva ácida provocada por SO2 e NOx.</li>
+                conferência com foco na chuva ácida provocada por SO<sub>2</sub> e NO<sub>x</sub>.</li>
               <li>Protocolo de Montreal (1987): Focado no controle e eliminação dos clorofluorcarbonetos (CFCs).</li>
             </ul>
             </p>
           </div>
           <div class="card">
             <h4>4. Convenção-Quadro Da Onu E Protocolo De Kyoto (1992-1997)</h4>
-            <p>Ampliaram o foco das emissões para a escala global, regulando gases do efeito estufa (como CO2 e N2O)
+            <p>Ampliaram o foco das emissões para a escala global, regulando gases do efeito estufa (como CO<sub>2</sub>
+              e N<sub>2</sub>O)
               provenientes do setor produtivo e energético.
             </p>
           </div>
@@ -114,7 +117,7 @@
           norma abrange atrito mecânico, aplicando-se inclusive a <strong>Veículos Elétricos (EVs)</strong>.</p>
         <div class="grid-2">
           <div class="card">
-            <h3>Partículas de Freio (PM₁₀)</h3>
+            <h3>Partículas de Freio (PM<sub>10</sub>)</h3>
             <p>Estabelecimento de limites estritos de desgaste por frenagem:</p>
             <ul style="margin-top: 10px;">
               <li><strong>Veículos a Combustão:</strong> Máximo de 7 mg/km.</li>
@@ -130,7 +133,7 @@
       </div>
     </section>
 
-    <!-- 4. Comparativo Histórico: Euro 5 vs Euro 6 -->
+    <!-- 4. Comparativo Histórico: Euro 5 vs Euro 6 - Limite de Emissões-->
     <section class="slide">
       <div class="slide-header">
         <h2>4. Comparativo Histórico: Euro 5 vs Euro 6</h2>
@@ -149,7 +152,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>Óxidos de Nitrogênio (NOx)</td>
+                <td>Óxidos de Nitrogênio (NO<sup>x</sup>)</td>
                 <td>2,0 g/kWh</td>
                 <td>0,4 g/kWh</td>
                 <td><strong style="color:var(--cor-sucesso);">-80% de redução</strong></td>
@@ -163,8 +166,8 @@
               <tr>
                 <td>Contagem de Partículas (PN)</td>
                 <td>Sem limite definido</td>
-                <td>6 × 10¹¹ part./kWh</td>
-                <td>Controle severo de partículas ultra-finas</td>
+                <td>6 × 10<sup>11</sup> part./kWh (part./km para veículos leves)</td>
+                <td>Controle severo de partículas ultra-finas (PM<sub>2,5</sub>)</td>
               </tr>
               <tr>
                 <td>Hidrocarbonetos (HC)</td>
@@ -178,7 +181,7 @@
       </div>
     </section>
 
-    <!-- 4. Comparativo Histórico: Euro 5 vs Euro 6 -->
+    <!-- 4. Comparativo Histórico: Euro 5 vs Euro 6 - Base Técnica-->
     <section class="slide">
       <div class="slide-header">
         <h2>4. Comparativo Histórico: Euro 5 vs Euro 6</h2>
@@ -205,8 +208,9 @@
               <tr>
                 <td>Injeção de Combustível</td>
                 <td>Common Rail ou Unidades Injetoras (1.800 a 2.000 bar)</td>
-                <td>Common Rail de altíssima pressão (+2.500 bar) com múltiplas injeções por ciclo</td>
-                <td>?</td>
+                <td>Common Rail de altíssima pressão (2.500 bar ou mais) com múltiplas injeções por ciclo (8 a 9; pré e
+                  pós)</td>
+                <td>Maximizar a eficiência e minimizar a formação de poluentes na origem</td>
               </tr>
               <tr>
                 <td>Pós-Tratamento (Escape)</td>
@@ -218,8 +222,8 @@
               <tr>
                 <td>Recirculação de Gases (EGR)</td>
                 <td>Usado pontualmente por algumas montadoras</td>
-                <td>Amplamente combinado com o SCR para reduzir a geração primária de NOx no cilindro</td>
-                <td>Arquitetura de pós-tratamento complexa</td>
+                <td>Amplamente combinado com o SCR para reduzir a geração primária de NO<sub>x</sub> no cilindro</td>
+                <td>Diminuição drástica de NO<sub>x</sub></td>
               </tr>
               <tr>
                 <td>Combustível Exigido</td>
@@ -253,17 +257,17 @@
                 escape (que já queimaram e possuem pouco oxigênio) de volta para o coletor de admissão. Ao misturar
                 esses gases inertes ao ar limpo admitido,
                 diminui-se a concentração de oxigênio na mistura e absorve-se parte do calor da explosão, reduzindo a
-                temperatura máxima da câmara e inibindo a formação de NOx.</li>
+                temperatura máxima da câmara e inibindo a formação de NO<sub>x</sub>.</li>
               <li>DOC (Diesel Oxidation Catalyst): <br>
                 Converte hidrocarbonetos (HC) e monóxido de carbono (CO) em água e
-                CO2.</li>
+                CO<sub>2</sub>.</li>
               <li>DPF (Diesel Particulate Filter): <br>
                 Retém a fuligem física. Quando atinge o limite de carga, a central
                 eletrônica realiza a regeneração (injetando diesel extra para elevar a temperatura do escape a mais de
                 550 °C e queimar a fuligem acumulada).</li>
               <li>SCR (Selective Catalytic Reduction): <br>
                 O ARLA 32 é pulverizado nos gases de escape quentes,
-                transformando o Óxido de Nitrogênio (NOx) em Nitrogênio e água.</li>
+                transformando o Óxido de Nitrogênio (NO<sub>x</sub>) em Nitrogênio e água.</li>
               <li>ASC (Ammonia Slip Catalyst): <br>
                 Elimina o excesso de amônia não reagida ao final do circuito para evitar
                 emissões de odor.</li>
@@ -276,7 +280,7 @@
             <div class="overlay" id="meuOverlay" onclick="fecharZoom()">
               <div class="conteudo-ampliado" onclick="event.stopPropagation()">
                 <video src="./doc/video/euro6.mkv" controls></video><br>
-                <button onclick="fecharZoom()">X</button>
+                <button onclick="fecharZoom()">Fechar</button>
               </div>
             </div>
 
@@ -301,8 +305,9 @@
               <li><strong>L1 a L2 (1988–1992):</strong><br> Padronização de medições, pequenas reduções de monóxido de
                 carbono (CO) e troca gradual dos carburadores.</li>
               <li><strong>L3 (1997):</strong><br> Catalisadores de três vias e sistemas de injeção eletrônica multiponto
-                para reduzir CO, NOx e hidrocarbonetos (HC).</li>
-              <li><strong>L4 e L5 (2005–2009):</strong><br> Endureceram substancialmente os limites de NOx e HC,
+                para reduzir CO, NO<sub>x</sub> e hidrocarbonetos (HC).</li>
+              <li><strong>L4 e L5 (2005–2009):</strong><br> Endureceram substancialmente os limites de NO<sub>x</sub> e
+                HC,
                 acompanhados pela melhoria da qualidade da gasolina nacional.</li>
               <li><strong>L6e L7 (2022):</strong><br> Metas de emissões evaporativas do tanque de combustível muito mais
                 rígidas (máximo de 0,5g/dia) e medição em condições reais de tráfego.</li>
@@ -319,7 +324,8 @@
               <li><strong>P5 (2004):</strong><br> Sistemas de injeção eletrônica Common Rail e unidade injetora.</li>
               <li><strong>P7 (2012):</strong><br> Pulo da fase P6 devido à indisponibilidade de diesel com baixo
                 enxofre. Introduziu o Arla 32 (SCR) e recirculação de gases (EGR).</li>
-              <li><strong>P8 (2023 - Euro 6):</strong><br> Redução drástica de NOx (80%) e material particulado (50%).
+              <li><strong>P8 (2023 - Euro 6):</strong><br> Redução drástica de NO<sub>x</sub> (80%) e material
+                particulado (50%).
                 Tornou obrigatório o uso conjunto de filtros DPF, catalisadores SCR e sistemas de telemetria de emissões
                 no painel (OBD).</li>
               <li><strong>PROMOT (1 a 5):</strong><br> Fases específicas para motocicletas (fim do carburador e a
@@ -341,7 +347,7 @@
           <div class="card">
             <h4>1. RDE Ampliado</h4>
             <p>Testes em Condições Reais de Condução abrangendo frio extremo, trajetos curtos e medição de particulas a
-              partir de 10nm (PN₁₀), e poluenges não regulamentados (N₂O e NH₃).</p>
+              partir de 10nm (PN<sub>10</sub>), e poluenges não regulamentados (N<sub>2</sub>O e NH<sub>3</sub>).</p>
           </div>
           <div class="card">
             <h4>2. Atrito Mecânico</h4>
@@ -387,7 +393,6 @@
             <p>Transição da homologação baseada apenas no motor em bancada para o teste integrado do veículo rodando em
               vias reais com PEMS (Sistemas Portáteis de Medição).</p>
           </div>
-          <div class="card caminhao"></div>
         </div>
       </div>
     </section>
@@ -467,7 +472,7 @@
             <ul>
               <li><strong>Química Avançada:</strong> Uso de sílica, elastômeros SSBR e óleos vegetais sustentáveis
                 (girassol/laranja).</li>
-              <li><strong>Banda de Rodagem IA 3D:</strong> Blocos interconectados para menor deformação.</li>
+              <li><strong>Banda de Rodagem 3D (IA):</strong> Blocos interconectados para menor deformação.</li>
               <li><strong>Estruturas em Aramida:</strong> Redução do peso do pneu para suporte de cargas pesadas em EVs.
               </li>
             </ul>
@@ -496,13 +501,13 @@
             <tbody>
               <tr>
                 <td>Leves (Gasolina)</td>
-                <td>NOx</td>
+                <td>NO<sub>x</sub></td>
                 <td>60 mg/km</td>
                 <td><strong>60 mg/km</strong></td>
               </tr>
               <tr>
                 <td>Leves (Diesel)</td>
-                <td>NOx</td>
+                <td>NO<sub>x</sub></td>
                 <td>80 mg/km</td>
                 <td><strong>60 mg/km</strong> (Equiparado)</td>
               </tr>
@@ -520,7 +525,7 @@
               </tr>
               <tr>
                 <td>Pesados (Caminhões)</td>
-                <td>NOx (Ciclo de bancada)</td>
+                <td>NO<sub>x</sub> (Ciclo de bancada)</td>
                 <td>0,40 g/kWh</td>
                 <td><strong>0,26 g/kWh</strong></td>
               </tr>
@@ -546,8 +551,9 @@
               eliminando a dependência do ARLA 32.</p>
           </div>
           <div class="card">
-            <h3>Célula de Hidrogênio (H₂)</h3>
-            <p>Emissão zero no escapamento (apenas vapor de água H₂O). Alta autonomia ideal para rotas rodoviárias
+            <h3>Célula de Hidrogênio (H<sub>2</sub>)</h3>
+            <p>Emissão zero no escapamento (apenas vapor de água H<sub>2</sub>O). Alta autonomia ideal para rotas
+              rodoviárias
               pesadas.</p>
           </div>
           <div class="card">
@@ -555,6 +561,7 @@
             <p>Eficiência total para frotas urbanas e de distribuição local, com custo de rodagem reduzido.</p>
           </div>
         </div>
+        <div class="diesel"><div>
       </div>
     </section>
 
@@ -624,7 +631,7 @@
     <!-- 16. Estudo de Caso: Toyota Mirai e Infraestrutura H₂ -->
     <section class="slide">
       <div class="slide-header">
-        <h2>16. Estudo de Caso: Toyota Mirai e Infraestrutura H₂</h2>
+        <h2>16. Estudo de Caso: Toyota Mirai e Infraestrutura H<sub>2</sub></h2>
         <span class="tag-fase">Exemplo Prático</span>
       </div>
       <div class="slide-content">
