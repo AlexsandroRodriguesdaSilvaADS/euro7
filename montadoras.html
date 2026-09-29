@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="h-full bg-slate-950 text-slate-100">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observatório Global de Montadoras Automotivas - Mapeamento Mundial</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#0B0F19',
+                            card: '#161F30',
+                            accent: '#F59E0B',
+                            cyan: '#06B6D4',
+                            emerald: '#10B981',
+                            purple: '#A855F7',
+                            rose: '#F43F5E'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Leaflet CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <style>
+        #map {
+            width: 100%;
+            height: 100%;
+            background-color: #0b0f19;
+        }
+
+        .custom-marker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .custom-marker:hover {
+            transform: scale(1.2);
+        }
+
+        .marker-volume {
+            background: linear-gradient(135deg, #10B981, #059669);
+            border: 2px solid #6EE7B7;
+        }
+
+        .marker-china {
+            background: linear-gradient(135deg, #A855F7, #7E22CE);
+            border: 2px solid #C084FC;
+        }
+
+        .marker-premium {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            border: 2px solid #FCD34D;
+        }
+
+        .marker-heavy {
+            background: linear-gradient(135deg, #06B6D4, #0284C7);
+            border: 2px solid #67E8F9;
+        }
+
+        .marker-regional {
+            background: linear-gradient(135deg, #64748B, #334155);
+            border: 2px solid #94A3B8;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background-color: #0F172A !important;
+            color: #F8FAFC !important;
+            border: 1px solid #334155;
+            border-radius: 0.75rem !important;
+            padding: 4px;
+        }
+
+        .leaflet-popup-tip {
+            background-color: #0F172A !important;
+        }
+    </style>
+</head>
+
+<body class="h-full flex flex-col font-sans overflow-hidden bg-slate-950 text-slate-100">
+
+    <!-- Top Navigation Header -->
+    <header
+        class="bg-slate-900/90 border-b border-slate-800 px-4 py-3 flex flex-wrap items-center justify-between z-30 shrink-0 backdrop-blur-md">
+        <div class="flex items-center gap-3">
+            <div
+                class="p-2 bg-emerald-500/10 border border-emerald-500/30 rounded-lg text-emerald-400 flex gap-2 items-center">
+                <i class="fa-solid fa-earth-americas text-lg"></i>
+                <i class="fa-solid fa-car text-sm"></i>
+                <i class="fa-solid fa-truck-front text-sm text-cyan-400"></i>
+            </div>
+            <div>
+                <h1 class="text-base sm:text-lg font-bold text-white tracking-tight flex items-center gap-2">
+                    Observatório Global de Montadoras
+                    <span
+                        class="text-xs font-normal px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700 hidden sm:inline-block">Mapeamento
+                        Mundial Completo</span>
+                </h1>
+                <p class="text-xs text-slate-400">Conglomerados Globais, Marcas Chinesas & EVs, Premium, Regionais e
+                    Veículos Pesados</p>
+            </div>
+        </div>
+
+        <!-- Global Summary Metrics -->
+        <div class="hidden lg:flex items-center gap-6 text-xs">
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 inline-block"></span>
+                <span class="text-slate-400">Volume Global: <strong class="text-slate-200"
+                        id="cnt-volume">0</strong></span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-purple-400 inline-block"></span>
+                <span class="text-slate-400">China & EVs: <strong class="text-slate-200"
+                        id="cnt-china">0</strong></span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block"></span>
+                <span class="text-slate-400">Premium/Luxo: <strong class="text-slate-200"
+                        id="cnt-premium">0</strong></span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 inline-block"></span>
+                <span class="text-slate-400">Pesados/Comerciais: <strong class="text-slate-200"
+                        id="cnt-heavy">0</strong></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-1 flex flex-col md:flex-row relative overflow-hidden">
+
+        <!-- Control Sidebar -->
+        <aside id="sidebar"
+            class="w-full md:w-96 bg-slate-900 border-r border-slate-800 flex flex-col z-20 shrink-0 absolute md:relative inset-y-0 left-0 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
+
+            <!-- Sidebar Header & Filters -->
+            <div class="p-4 border-b border-slate-800 space-y-3 bg-slate-900/50">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Filtros por
+                        Categoria</span>
+                    <button id="close-sidebar-mobile" class="md:hidden text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Category Filters Buttons -->
+                <div class="grid grid-cols-2 gap-1.5 text-[11px]">
+                    <button data-cat="all"
+                        class="filter-btn active-filter py-1.5 px-2 rounded border bg-slate-800 border-slate-600 text-white font-medium col-span-2">
+                        Todas as Montadoras (<span id="cnt-all">0</span>)
+                    </button>
+                    <button data-cat="volume"
+                        class="filter-btn py-1.5 px-2 rounded border border-emerald-500/40 text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20">
+                        <i class="fa-solid fa-industry me-1"></i> Volume Global
+                    </button>
+                    <button data-cat="china"
+                        class="filter-btn py-1.5 px-2 rounded border border-purple-500/40 text-purple-400 bg-purple-500/10 hover:bg-purple-500/20">
+                        <i class="fa-solid fa-bolt me-1"></i> China & EVs
+                    </button>
+                    <button data-cat="premium"
+                        class="filter-btn py-1.5 px-2 rounded border border-amber-500/40 text-amber-400 bg-amber-500/10 hover:bg-amber-500/20">
+                        <i class="fa-solid fa-crown me-1"></i> Premium / Luxo
+                    </button>
+                    <button data-cat="heavy"
+                        class="filter-btn py-1.5 px-2 rounded border border-cyan-500/40 text-cyan-400 bg-cyan-500/10 hover:bg-cyan-500/20">
+                        <i class="fa-solid fa-truck me-1"></i> Pesados / Comercial
+                    </button>
+                </div>
+
+                <!-- Live Search Box -->
+                <div class="relative pt-1">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-xs text-slate-500"></i>
+                    <input type="text" id="search-input" placeholder="Buscar por montadora, grupo, país ou marca..."
+                        class="w-full bg-slate-950 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-slate-600">
+                </div>
+            </div>
+
+            <!-- Dynamic Sidebar Content -->
+            <div class="flex-1 overflow-y-auto p-4 space-y-4" id="sidebar-content">
+
+                <!-- List State -->
+                <div id="default-info" class="space-y-2">
+                    <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2" id="list-title">Lista
+                        de Montadoras Globais</h4>
+                    <div id="oem-list" class="space-y-1.5">
+                        <!-- Populated via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Selected Item Details Panel -->
+                <div id="detail-panel" class="hidden space-y-4">
+                    <button id="back-to-list"
+                        class="text-xs text-slate-400 hover:text-white flex items-center gap-1 transition">
+                        <i class="fa-solid fa-arrow-left"></i> Voltar à lista
+                    </button>
+
+                    <div id="detail-card" class="p-4 bg-slate-950 border border-slate-800 rounded-xl space-y-3">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Sidebar Footer -->
+            <div
+                class="p-3 border-t border-slate-800 bg-slate-950 text-[11px] text-slate-500 flex justify-between items-center">
+                <span>Indústria Automotiva Global</span>
+                <span class="text-slate-400 font-mono">2026 Edition</span>
+            </div>
+        </aside>
+
+        <!-- Mobile Sidebar Toggle -->
+        <button id="open-sidebar-mobile"
+            class="md:hidden absolute top-3 left-3 z-10 bg-slate-900 text-slate-200 p-2.5 rounded-lg border border-slate-700 shadow-lg">
+            <i class="fa-solid fa-bars text-base"></i>
+        </button>
+
+        <!-- Leaflet Map Container -->
+        <div class="flex-1 h-full relative">
+            <div id="map" class="w-full h-full z-0"></div>
+
+            <!-- Floating Map Legend -->
+            <div
+                class="absolute bottom-6 right-6 z-10 bg-slate-900/90 backdrop-blur-md border border-slate-800 p-3.5 rounded-xl shadow-2xl max-w-xs text-xs space-y-2 hidden sm:block">
+                <div
+                    class="font-semibold text-slate-200 border-b border-slate-800 pb-1 flex justify-between items-center">
+                    <span>Categorias de Montadoras</span>
+                    <i class="fa-solid fa-layer-group text-slate-500"></i>
+                </div>
+
+                <div class="space-y-1.5 text-[11px]">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-emerald-500 border border-emerald-300 inline-block"></span>
+                        <span class="text-slate-300">Conglomerados de Volume Global</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-purple-500 border border-purple-300 inline-block"></span>
+                        <span class="text-slate-300">Montadoras Chinesas & Startups EV</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-amber-500 border border-amber-300 inline-block"></span>
+                        <span class="text-slate-300">Marcas Premium / Luxo / Esportivas</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-cyan-400 border border-cyan-200 inline-block"></span>
+                        <span class="text-slate-300">Veículos Pesados & Comerciais</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-slate-500 border border-slate-300 inline-block"></span>
+                        <span class="text-slate-300">Montadoras Regionais / Especialistas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* COMPREHENSIVE GLOBAL OEM DATASET */
+        const globalOEMs = [
+            // 1. VOLUME GLOBALS
+            {
+                id: 'oem-v1',
+                name: 'Toyota Group',
+                category: 'volume',
+                hub: 'Toyota City & Global HQ',
+                region: 'Aichi, Japão',
+                coords: [35.08, 137.15],
+                country: 'Japão',
+                brands: 'Toyota, Lexus, Daihatsu, Hino Motors',
+                propulsion: 'Híbrido (HEV), Híbrido Flex, Plug-in (PHEV), Célula de Hidrogênio (FCEV), BEV',
+                volume: '~10.5 a 11.2 M veículos/ano',
+                description: 'Maior fabricante de veículos do mundo por volume. Pioneira mundial em propulsão híbrida (Prius/Corolla) e detentora do Toyota Production System (TPS).'
+            },
+            {
+                id: 'oem-v2',
+                name: 'Volkswagen Group',
+                category: 'volume',
+                hub: 'Wolfsburg Global Headquarters',
+                region: 'Baixa Saxônia, Alemanha',
+                coords: [52.42, 10.78],
+                country: 'Alemanha',
+                brands: 'Volkswagen, Audi, Porsche, Škoda, SEAT/Cupra, Bentley, Lamborghini, Ducati, TRATON',
+                propulsion: 'Gasolina, Diesel, TSI, Mild-Hybrid, PHEV, Plataformas Elétricas MEB e PPE',
+                volume: '~9.0 a 9.5 M veículos/ano',
+                description: 'Maior grupo automotivo da Europa. Ampla presença multimarca abrangendo desde veículos populares até superesportivos e caminhões pesados.'
+            },
+            {
+                id: 'oem-v3',
+                name: 'Hyundai Motor Group',
+                category: 'volume',
+                hub: 'Seoul HQ & Ulsan Mega Plant',
+                region: 'Seul & Ulsan, Coreia do Sul',
+                coords: [35.53, 129.31],
+                country: 'Coreia do Sul',
+                brands: 'Hyundai, Kia, Genesis',
+                propulsion: 'Gasolina, Diesel, TGDI Flex, Híbrido, Plataforma E-GMP (800V BEV)',
+                volume: '~6.8 a 7.3 M veículos/ano',
+                description: 'Terceiro maior grupo global. Destaca-se pelo rápido avanço em veículos elétricos de alta voltagem e forte liderança em design e qualidade global.'
+            },
+            {
+                id: 'oem-v4',
+                name: 'Stellantis N.V.',
+                category: 'volume',
+                hub: 'Betim, Goiana, Turim & Auburn Hills',
+                region: 'Multinacional (América, Europa, LatAm)',
+                coords: [45.07, 7.68],
+                country: 'Holanda / França / Itália / EUA',
+                brands: 'Fiat, Jeep, Peugeot, Citroën, RAM, Opel, Vauxhall, Alfa Romeo, Maserati, Dodge, Chrysler',
+                propulsion: 'Bio-Hybrid Flex, Turbo Flex, STLA EV Platforms (Small, Medium, Large, Frame)',
+                volume: '~6.0 a 6.5 M veículos/ano',
+                description: 'Resultado da fusão entre FCA e PSA. Grupo detentor de 14 marcas icônicas e líder absoluto de mercado na América do Sul e Sul da Europa.'
+            },
+            {
+                id: 'oem-v5',
+                name: 'General Motors (GM)',
+                category: 'volume',
+                hub: 'Detroit Renaissance Center & Warren Tech',
+                region: 'Michigan, Estados Unidos',
+                coords: [42.33, -83.04],
+                country: 'Estados Unidos',
+                brands: 'Chevrolet, GMC, Cadillac, Buick',
+                propulsion: 'Ecotec Turbo, Flex, Duramax Diesel, Plataforma Elétrica Ultium',
+                volume: '~5.9 a 6.2 M veículos/ano',
+                description: 'Uma das mais históricas fabricantes globais. Focada na transição para picapes e SUVs eletrificados e tecnologia autônoma Cruise.'
+            },
+            {
+                id: 'oem-v6',
+                name: 'Ford Motor Company',
+                category: 'volume',
+                hub: 'Dearborn World Headquarters',
+                region: 'Michigan, Estados Unidos',
+                coords: [42.31, -83.20],
+                country: 'Estados Unidos',
+                brands: 'Ford, Lincoln',
+                propulsion: 'EcoBoost Flex/Gasolina, PowerBoost Hybrid, BEV (Model e)',
+                volume: '~4.2 a 4.5 M veículos/ano',
+                description: 'Pioneira da linha de montagem moderna. Focada em picapes pesadas (F-150), veículos comerciais e reestruturação da divisão elétrica Ford Model e.'
+            },
+            {
+                id: 'oem-v7',
+                name: 'Aliança Renault-Nissan-Mitsubishi',
+                category: 'volume',
+                hub: 'Boulogne-Billancourt & Yokohama',
+                region: 'França & Japão',
+                coords: [35.46, 139.63],
+                country: 'França / Japão',
+                brands: 'Renault, Dacia, Alpine, Nissan, Infiniti, Mitsubishi',
+                propulsion: 'E-TECH Hybrid, e-POWER, Turbo Flex, BEV CMF-EV',
+                volume: '~6.3 a 6.8 M veículos/ano (Consolidado)',
+                description: 'Aliança estratégica de cooperação tecnológica e compartilhamento de plataformas globais de produção entre Europa e Ásia.'
+            },
+            {
+                id: 'oem-v8',
+                name: 'Honda Motor Co., Ltd.',
+                category: 'volume',
+                hub: 'Tokyo HQ & Sayama/Suzuka Plants',
+                region: 'Tóquio, Japão',
+                coords: [35.66, 139.75],
+                country: 'Japão',
+                brands: 'Honda, Acura',
+                propulsion: 'i-VTEC Flex, e:HEV (Dois Motores Híbridos), Honda e:Architecture BEV',
+                volume: '~3.8 a 4.1 M veículos/ano',
+                description: 'Reconhecida globalmente pela excelência em engenharia mecânica, motores de alta eficiência e consolidação da tecnologia híbrida e:HEV.'
+            },
+            {
+                id: 'oem-v9',
+                name: 'Suzuki Motor Corporation',
+                category: 'volume',
+                hub: 'Hamamatsu HQ & Maruti Suzuki India',
+                region: 'Shizuoka (Japão) & Gurugram (Índia)',
+                coords: [34.70, 137.73],
+                country: 'Japão / Índia',
+                brands: 'Suzuki, Maruti Suzuki',
+                propulsion: 'Gasolina, Smart Hybrid (MHEV), GNV, Flex-Fuel',
+                volume: '~3.0 a 3.2 M veículos/ano',
+                description: 'Líder absoluta do mercado automobilístico indiano através da Maruti Suzuki. Especialista em veículos compactos, utilitários leves e tração 4x4 AllGrip.'
+            },
+
+            // 2. CHINA & ELECTRIC VEHICLE STARTUPS
+            {
+                id: 'oem-c1',
+                name: 'BYD Auto Co., Ltd.',
+                category: 'china',
+                hub: 'Shenzhen Headquarters & Camaçari Hub',
+                region: 'Guangdong (China) & Bahia (Brasil)',
+                coords: [22.68, 114.21],
+                country: 'China',
+                brands: 'BYD, Denza, Yangwang, Fangchengbao',
+                propulsion: '100% Elétrico (BEV - Bateria Blade) & Híbrido Plug-in Dual Mode (DM-i/DM-p)',
+                volume: '~3.0 a 3.8 M veículos/ano',
+                description: 'Líder mundial em Veículos de Nova Energia (NEVs). Integração vertical própria desde a mineração de lítio até células de bateria Blade.'
+            },
+            {
+                id: 'oem-c2',
+                name: 'Zhejiang Geely Holding Group',
+                category: 'china',
+                hub: 'Hangzhou HQ & Torslanda Plant',
+                region: 'Zhejiang (China) & Gotemburgo (Suécia)',
+                coords: [30.27, 120.15],
+                country: 'China / Suécia',
+                brands: 'Geely Auto, Volvo Cars, Polestar, Zeekr, Lynk & Co, Lotus, LEVC',
+                propulsion: 'Plataformas SEA (Sustainable Experience Architecture), CMA, PHEV, BEV',
+                volume: '~2.8 a 3.0 M veículos/ano',
+                description: 'Conglomerado global privado chinês que adquiriu a Volvo Cars e Lotus, expandindo marcas elétricas de alta tecnologia como Zeekr e Polestar.'
+            },
+            {
+                id: 'oem-c3',
+                name: 'SAIC Motor Corporation',
+                category: 'china',
+                hub: 'Shanghai Automotive Hub',
+                region: 'Xangai, China',
+                coords: [31.23, 121.47],
+                country: 'China',
+                brands: 'MG Motor, Roewe, Maxus, SAIC-GM-Wuling',
+                propulsion: 'Gasolina, Elétricos puros, Híbridos Plug-in',
+                volume: '~5.0 M veículos/ano (Incluindo Joint Ventures)',
+                description: 'Um dos "Quatro Grandes" grupos estatais da China. Expandiu globalmente a britânica MG Motor, liderando exportações chinesas para a Europa.'
+            },
+            {
+                id: 'oem-c4',
+                name: 'Tesla, Inc.',
+                category: 'china',
+                hub: 'Gigafactory Austin, Shanghai, Berlin, Fremont',
+                region: 'EUA, China & Alemanha',
+                coords: [30.22, -97.61],
+                country: 'Estados Unidos / Global',
+                brands: 'Tesla (Model 3, Y, S, X, Cybertruck, Semi)',
+                propulsion: '100% Elétrico (BEV), Baterias 4680, Rede Supercharger',
+                volume: '~1.8 a 2.0 M veículos/ano',
+                description: 'Pioneira e referência mundial em carros elétricos puros, redes globais de supercarregamento e inteligência de condução autônoma FSD.'
+            },
+            {
+                id: 'oem-c5',
+                name: 'Changan Automobile',
+                category: 'china',
+                hub: 'Chongqing Industrial Hub',
+                region: 'Chongqing, China',
+                coords: [29.56, 106.55],
+                country: 'China',
+                brands: 'Changan, Deepal, Avatr, Kaicene',
+                propulsion: 'Gasolina, Blue Core Turbo, PHEV, BEV com tecnologia Huawei e CATL',
+                volume: '~2.5 M veículos/ano',
+                description: 'Tradicional estatal chinesa em forte transição elétrica com as submarcas Deepal e Avatr (parceria tecnológica com Huawei e CATL).'
+            },
+            {
+                id: 'oem-c6',
+                name: 'Chery Automobile Co.',
+                hub: 'Wuhu Industrial Park & Jacareí',
+                category: 'china',
+                region: 'Anhui (China) & São Paulo (Brasil)',
+                coords: [31.35, 118.38],
+                country: 'China',
+                brands: 'Chery, Omoda, Jaecoo, Exeed, Jetour',
+                propulsion: 'TGDI Turbo, Híbrido DHT (Dedicated Hybrid Transmission), BEV',
+                volume: '~1.8 a 2.1 M veículos/ano',
+                description: 'Maior exportadora de carros de passeio da China por vários anos consecutivos. Operação global consolidada com as marcas Omoda e Jaecoo.'
+            },
+            {
+                id: 'oem-c7',
+                name: 'Great Wall Motor (GWM)',
+                category: 'china',
+                hub: 'Baoding Tech Center & Iracemápolis',
+                region: 'Hebei (China) & São Paulo (Brasil)',
+                coords: [38.85, 115.48],
+                country: 'China',
+                brands: 'Haval, Ora, Tank, Poer, Wey',
+                propulsion: 'Híbrido DHT, PHEV Hi4 4WD, Baterias de Sódio e Lítio',
+                volume: '~1.2 a 1.4 M veículos/ano',
+                description: 'Especialista chinesa em SUVs (Haval), picapes pesadas (Poer) e veículos elétricos urbanos (Ora). Adquiriu a fábrica da Mercedes-Benz no Brasil.'
+            },
+            {
+                id: 'oem-c8',
+                name: 'FAW Group (First Automobile Works)',
+                category: 'china',
+                hub: 'Changchun Auto Hub',
+                region: 'Jilin, China',
+                coords: [43.88, 125.32],
+                country: 'China',
+                brands: 'Hongqi, Bestune, FAW Jiefang (Pesados)',
+                propulsion: 'Gasolina, V8/V12 para comitivas estatais, BEV de Luxo',
+                volume: '~3.2 M veículos/ano',
+                description: 'Primeira fabricante de automóveis da história da China. Produtora dos veículos de luxo e Estado Hongqi ("Bandeira Vermelha").'
+            },
+            {
+                id: 'oem-c9',
+                name: 'NIO Inc. / XPeng Motors / Li Auto / Xiaomi Auto',
+                category: 'china',
+                hub: 'Hefei, Guangzhou, Beijing & Changzhou',
+                region: 'China (Vários Hubs)',
+                coords: [31.86, 117.28],
+                country: 'China',
+                brands: 'NIO, XPeng, Li Auto, Xiaomi Auto (SU7)',
+                propulsion: 'BEV com Troca de Bateria (NIO Battery Swap), EREV (Extensor de Autonomia), OS Inteligente',
+                volume: '~1.0 M veículos/ano (Consolidado Startups)',
+                description: 'Nova geração de montadoras nativas de tecnologia e software da China, destacando-se pelo ecossistema da Xiaomi e troca rápida de bateria da NIO.'
+            },
+
+            // 3. PREMIUM & LUXURY
+            {
+                id: 'oem-p1',
+                name: 'BMW Group',
+                category: 'premium',
+                hub: 'Munich Headquarters & Spartanburg Plant',
+                region: 'Baviera (Alemanha) & Carolina do Sul (EUA)',
+                coords: [48.17, 11.55],
+                country: 'Alemanha',
+                brands: 'BMW, MINI, Rolls-Royce',
+                propulsion: 'TwinPower Turbo, Plug-in Hybrid, Arquitetura Elétrica Neue Klasse',
+                volume: '~2.5 M veículos/ano',
+                description: 'Líder global no segmento automotivo Premium. Combina dinâmica de condução esportiva com forte eletrificação iX/i4 e luxo ultra-exclusivo com a Rolls-Royce.'
+            },
+            {
+                id: 'oem-p2',
+                name: 'Mercedes-Benz Group AG',
+                category: 'premium',
+                hub: 'Stuttgart-Untertürkheim & Sindelfingen',
+                region: 'Baden-Württemberg, Alemanha',
+                coords: [48.78, 9.23],
+                country: 'Alemanha',
+                brands: 'Mercedes-Benz, Mercedes-AMG, Mercedes-Maybach, Smart (50% Geely)',
+                propulsion: 'Gasolina, Diesel, Plug-in Hybrid EQ, MMA/MB.EA Platforms',
+                volume: '~2.0 a 2.4 M veículos/ano',
+                description: 'Inventora do automóvel moderno. Referência planetária em engenharia de prestígio, segurança passiva/ativa, condução autônoma Nível 3 e ultraluxo Maybach.'
+            },
+            {
+                id: 'oem-p3',
+                name: 'Ferrari N.V.',
+                category: 'premium',
+                hub: 'Maranello Factory & Pista di Fiorano',
+                region: 'Emília-Romanha, Itália',
+                coords: [44.53, 10.86],
+                country: 'Itália',
+                brands: 'Ferrari (V8, V12, Hybrid V6, E-Building)',
+                propulsion: 'V8 Turbo, V12 Aspirado, Híbrido Plug-in F1 (SF90/296 GTB), Primeiro Elétrico',
+                volume: '~13.500 veículos/ano',
+                description: 'A marca de superesportivos mais valiosa e prestigiada do mundo. Alta rentabilidade por unidade e forte ligação com a Scuderia Ferrari na Fórmula 1.'
+            },
+
+            // 4. REGIONAL & SPECIALIST OEMS
+            {
+                id: 'oem-r1',
+                name: 'Tata Motors Limited',
+                category: 'regional',
+                hub: 'Mumbai HQ & Solihull/Gaydon (JLR)',
+                region: 'Maharashtra (Índia) & Reino Unido',
+                coords: [19.07, 72.87],
+                country: 'Índia / Reino Unido',
+                brands: 'Tata Motors, Jaguar, Land Rover (JLR)',
+                propulsion: 'Gasolina, Diesel, Ziptron EV, Ingenium Engines, BEV JLR',
+                volume: '~1.4 M veículos/ano',
+                description: 'Maior conglomerado automotivo da Índia. Proprietária da prestigiada divisão britânica Jaguar Land Rover (Range Rover, Defender, Discovery).'
+            },
+            {
+                id: 'oem-r2',
+                name: 'Mahindra & Mahindra',
+                category: 'regional',
+                hub: 'Pune & Mumbai Auto Hub',
+                region: 'Maharashtra, Índia',
+                coords: [18.52, 73.85],
+                country: 'Índia',
+                brands: 'Mahindra (SUVs, Tratores e Comerciais Leves)',
+                propulsion: 'mHawk Diesel, mStallion Turbo Gasolina, Arquitetura INGLO EV',
+                volume: '~800.000 veículos/ano',
+                description: 'Líder indiana em SUVs robustos para terrenos severos, utilitários e maior fabricante mundial de tratores agrícolas em volume.'
+            },
+            {
+                id: 'oem-r3',
+                name: 'Subaru Corporation',
+                category: 'regional',
+                hub: 'Ebisu HQ & Gunma Plant',
+                region: 'Tóquio & Gunma, Japão',
+                coords: [36.32, 139.01],
+                country: 'Japão',
+                brands: 'Subaru',
+                propulsion: 'Motor Boxer (Cilindros Opostos), Symmetrical AWD, e-Boxer Hybrid',
+                volume: '~850.000 a 1.0 M veículos/ano',
+                description: 'Famosa por seus motores com arquitetura Boxer, tração integral permanente Symmetrical AWD e alta fidelidade de clientes na América do Norte.'
+            },
+            {
+                id: 'oem-r4',
+                name: 'Mazda Motor Corporation',
+                category: 'regional',
+                hub: 'Hiroshima Headquarters & Plant',
+                region: 'Hiroshima, Japão',
+                coords: [34.38, 132.48],
+                country: 'Japão',
+                brands: 'Mazda',
+                propulsion: 'Skyactiv-G, Skyactiv-X (Compressão por Ignição), Rotativo Híbrido (MX-30)',
+                volume: '~1.1 a 1.2 M veículos/ano',
+                description: 'Destaca-se pelo design filosófico Kodo, motores de alta taxa de compressão Skyactiv e reinvenção do motor rotativo Wankel como gerador elétrico.'
+            },
+
+            // 5. HEAVY COMMERCIAL & TRUCKS
+            {
+                id: 'oem-h1',
+                name: 'Daimler Truck Holding AG',
+                category: 'heavy',
+                hub: 'Leinfelden-Echterdingen & São Bernardo do Campo',
+                region: 'Alemanha, Brasil, EUA',
+                coords: [48.69, 9.14],
+                country: 'Alemanha',
+                brands: 'Mercedes-Benz Trucks, Freightliner, Western Star, FUSO, BharatBenz',
+                propulsion: 'Diesel Euro VI / Proconve P-8, eActros (BEV), Célula de Hidrogênio (GenH2)',
+                volume: '~500.000 veículos pesados/ano',
+                description: 'Maior fabricante mundial de caminhões e ônibus pesados. Marcas líderes na América do Norte (Freightliner) e América Latina/Europa (Mercedes-Benz).'
+            },
+            {
+                id: 'oem-h2',
+                name: 'Volvo Group (AB Volvo)',
+                category: 'heavy',
+                hub: 'Gothenburg HQ & Curitiba Plant',
+                region: 'Suécia & Brasil',
+                coords: [57.70, 11.97],
+                country: 'Suécia',
+                brands: 'Volvo Trucks, Renault Trucks, Mack Trucks, Prevost',
+                propulsion: 'Diesel Euro VI (SCR), Transmissão I-Shift, Elétricos Pesados FH/FM',
+                volume: '~230.000 veículos pesados/ano',
+                description: 'Líder global em transporte pesado de carga e automação rodoviária. Destaque para o caminhão FH540 e linha pesada Mack nos EUA.'
+            },
+            {
+                id: 'oem-h3',
+                name: 'TRATON SE (Volkswagen Group)',
+                category: 'heavy',
+                hub: 'Munich HQ, Södertälje & Resende',
+                region: 'Alemanha, Suécia & Brasil',
+                coords: [59.19, 17.62],
+                country: 'Alemanha / Suécia / Brasil',
+                brands: 'Scania, MAN Truck & Bus, Volkswagen Caminhões e Ônibus (VWCO), Navistar (International)',
+                propulsion: 'Scania Super Euro VI, GNV/Biometano, e-Delivery BEV',
+                volume: '~330.000 veículos pesados/ano',
+                description: 'Divisão de veículos comerciais do Grupo VW. Conecta a lendária engenharia pesada da Scania, MAN e a brasileira VWCO.'
+            },
+            {
+                id: 'oem-h4',
+                name: 'PACCAR Inc.',
+                category: 'heavy',
+                hub: 'Bellevue HQ, Eindhoven & Ponta Grossa',
+                region: 'EUA, Holanda & Brasil',
+                coords: [47.61, -122.19],
+                country: 'Estados Unidos',
+                brands: 'DAF Trucks, Kenworth, Peterbilt',
+                propulsion: 'Motores PACCAR MX-11/MX-13 Euro VI, Kenworth T680 FCEV',
+                volume: '~200.000 caminhões pesados/ano',
+                description: 'Dona das marcas de caminhões mais tradicionais da rodagem norte-americana (Peterbilt e Kenworth) e da europeia DAF.'
+            },
+            {
+                id: 'oem-h5',
+                name: 'Iveco Group N.V.',
+                category: 'heavy',
+                hub: 'Turin HQ & Sete Lagoas Plant',
+                region: 'Itália & Brasil',
+                coords: [45.03, 7.63],
+                country: 'Itália',
+                brands: 'Iveco, Iveco Bus, Heuliez, FPT Industrial (Powertrain)',
+                propulsion: 'Diesel Euro VI, GNV/Biometano (Natural Power), FPT Engines',
+                volume: '~180.000 veículos comerciais/ano',
+                description: 'Fabricante da linha de pesados S-Way, comerciais Daily e da divisão de motores pesados e industriais FPT Industrial.'
+            }
+        ];
+
+        // Global State
+        let map;
+        let markersLayerGroup;
+        let activeCategory = 'all';
+        let currentMarkers = [];
+
+        // Initialize Map & Interface
+        function initMap() {
+            // Leaflet Map centered globally
+            map = L.map('map', {
+                zoomControl: true,
+                minZoom: 2
+            }).setView([20.0, 10.0], 3);
+
+            // CARTO Dark Matter Basemap Tiles
+            /*L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 18
+            }).addTo(map);*/
+
+            //ATUALIZAÇÃO DO MAPA
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+                maxZoom: 16
+            }).addTo(map);
+
+            markersLayerGroup = L.layerGroup().addTo(map);
+
+            renderMarkers();
+            renderSidebarList();
+            updateCategoryCounts();
+            setupEventListeners();
+        }
+
+        // Custom Marker Pin Styling per Category
+        function getMarkerIcon(category) {
+            let markerClass = 'marker-regional';
+            let iconClass = 'fa-car';
+
+            if (category === 'volume') {
+                markerClass = 'marker-volume';
+                iconClass = 'fa-industry';
+            } else if (category === 'china') {
+                markerClass = 'marker-china';
+                iconClass = 'fa-bolt';
+            } else if (category === 'premium') {
+                markerClass = 'marker-premium';
+                iconClass = 'fa-crown';
+            } else if (category === 'heavy') {
+                markerClass = 'marker-heavy';
+                iconClass = 'fa-truck-front';
+            }
+
+            return L.divIcon({
+                className: 'custom-div-icon',
+                html: `<div class="custom-marker ${markerClass} w-8 h-8 rounded-full">
+                        <i class="fa-solid ${iconClass} text-xs"></i>
+                       </div>`,
+                iconSize: [32, 32],
+                iconAnchor: [16, 16],
+                popupAnchor: [0, -16]
+            });
+        }
+
+        // Render Map Markers
+        function renderMarkers(filterQuery = '') {
+            markersLayerGroup.clearLayers();
+            currentMarkers = [];
+
+            const query = filterQuery.toLowerCase();
+
+            globalOEMs.forEach(oem => {
+                // Category Filter
+                if (activeCategory !== 'all' && oem.category !== activeCategory) {
+                    return;
+                }
+
+                // Text Search Filter
+                const matchesSearch =
+                    oem.name.toLowerCase().includes(query) ||
+                    oem.brands.toLowerCase().includes(query) ||
+                    oem.country.toLowerCase().includes(query) ||
+                    oem.hub.toLowerCase().includes(query);
+
+                if (!matchesSearch) return;
+
+                const marker = L.marker(oem.coords, { icon: getMarkerIcon(oem.category) });
+
+                const popupContent = `
+                    <div class="p-2 space-y-1 text-xs">
+                        <div class="font-bold text-slate-100 text-sm flex items-center gap-1.5">
+                            ${oem.name}
+                        </div>
+                        <div class="text-slate-400 text-[11px]"><i class="fa-solid fa-location-dot me-1"></i>${oem.hub} (${oem.country})</div>
+                        <div class="pt-1 text-slate-300"><strong>Marcas:</strong> ${oem.brands}</div>
+                        <div class="text-slate-300"><strong>Volume:</strong> ${oem.volume}</div>
+                    </div>
+                `;
+
+                marker.bindPopup(popupContent);
+                marker.on('click', () => selectOEM(oem));
+                markersLayerGroup.addLayer(marker);
+
+                currentMarkers.push({ oem, marker });
+            });
+        }
+
+        // Render List in Sidebar
+        function renderSidebarList(filterQuery = '') {
+            const listContainer = document.getElementById('oem-list');
+            const query = filterQuery.toLowerCase();
+
+            const filteredList = globalOEMs.filter(oem => {
+                const categoryMatch = activeCategory === 'all' || oem.category === activeCategory;
+                const searchMatch =
+                    oem.name.toLowerCase().includes(query) ||
+                    oem.brands.toLowerCase().includes(query) ||
+                    oem.country.toLowerCase().includes(query) ||
+                    oem.hub.toLowerCase().includes(query);
+                return categoryMatch && searchMatch;
+            });
+
+            if (filteredList.length === 0) {
+                listContainer.innerHTML = `<div class="text-xs text-slate-500 py-4 text-center">Nenhuma montadora encontrada com esse filtro.</div>`;
+                return;
+            }
+
+            listContainer.innerHTML = filteredList.map(oem => {
+                let badgeClass = 'bg-slate-800 text-slate-300 border-slate-700';
+                let label = 'Regional';
+
+                if (oem.category === 'volume') { badgeClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'; label = 'Volume Global'; }
+                else if (oem.category === 'china') { badgeClass = 'bg-purple-500/10 text-purple-400 border-purple-500/30'; label = 'China & EV'; }
+                else if (oem.category === 'premium') { badgeClass = 'bg-amber-500/10 text-amber-400 border-amber-500/30'; label = 'Premium'; }
+                else if (oem.category === 'heavy') { badgeClass = 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'; label = 'Pesados'; }
+
+                return `
+                    <div onclick="focusOEMById('${oem.id}')" 
+                         class="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800/80 hover:border-slate-600 hover:bg-slate-800/40 cursor-pointer transition text-xs space-y-1">
+                        <div class="flex justify-between items-center gap-1">
+                            <span class="font-semibold text-slate-200 truncate">${oem.name}</span>
+                            <span class="text-[9px] px-1.5 py-0.5 rounded border ${badgeClass} shrink-0">${label}</span>
+                        </div>
+                        <p class="text-[11px] text-slate-400 truncate"><i class="fa-solid fa-earth-americas text-[10px] me-1"></i>${oem.country} - ${oem.hub}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Select and Display Details View
+        function selectOEM(oem) {
+            const defaultInfo = document.getElementById('default-info');
+            const detailPanel = document.getElementById('detail-panel');
+            const detailCard = document.getElementById('detail-card');
+
+            defaultInfo.classList.add('hidden');
+            detailPanel.classList.remove('hidden');
+
+            let badgeClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+            let label = 'Conglomerado de Volume Global';
+
+            if (oem.category === 'china') { badgeClass = 'bg-purple-500/10 text-purple-400 border-purple-500/30'; label = 'Montadora Chinesa / EV'; }
+            else if (oem.category === 'premium') { badgeClass = 'bg-amber-500/10 text-amber-400 border-amber-500/30'; label = 'Marca Premium / Luxo'; }
+            else if (oem.category === 'heavy') { badgeClass = 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30'; label = 'Veículos Pesados & Comerciais'; }
+            else if (oem.category === 'regional') { badgeClass = 'bg-slate-800 text-slate-300 border-slate-700'; label = 'Montadora Regional / Especialista'; }
+
+            detailCard.innerHTML = `
+                <div class="border-b border-slate-800 pb-3 space-y-1">
+                    <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded border ${badgeClass}">
+                        ${label}
+                    </span>
+                    <h3 class="text-base font-bold text-white pt-1 flex items-center gap-2">
+                        ${oem.name}
+                    </h3>
+                    <p class="text-xs text-slate-400">${oem.hub}</p>
+                </div>
+
+                <div class="space-y-2.5 text-xs">
+                    <div>
+                        <span class="text-slate-400 font-medium">Marcas / Divisões do Grupo:</span>
+                        <p class="text-slate-200 font-semibold">${oem.brands}</p>
+                    </div>
+
+                    <div>
+                        <span class="text-slate-400 font-medium">País de Origem / Sede:</span>
+                        <p class="text-slate-200 font-semibold">${oem.country} (${oem.region})</p>
+                    </div>
+
+                    <div>
+                        <span class="text-slate-400 font-medium">Tecnologia de Propulsão / Plataformas:</span>
+                        <p class="text-slate-200 font-medium">${oem.propulsion}</p>
+                    </div>
+
+                    <div>
+                        <span class="text-slate-400 font-medium">Volume Estimado de Produção:</span>
+                        <p class="text-slate-200 font-semibold">${oem.volume}</p>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-800">
+                        <span class="text-slate-400 font-medium">Visão Geral & Atuação no Mercado:</span>
+                        <p class="text-slate-300 leading-relaxed mt-1 text-[11px]">${oem.description}</p>
+                    </div>
+                </div>
+            `;
+
+            // Center and zoom map to location
+            map.flyTo(oem.coords, 6, { duration: 1.2 });
+        }
+
+        // Focus OEM from Sidebar Click
+        window.focusOEMById = function (id) {
+            const oem = globalOEMs.find(item => item.id === id);
+            if (oem) {
+                selectOEM(oem);
+                const markerObj = currentMarkers.find(m => m.oem.id === id);
+                if (markerObj) {
+                    markerObj.marker.openPopup();
+                }
+            }
+        };
+
+        // Update Counter Numbers
+        function updateCategoryCounts() {
+            document.getElementById('cnt-all').innerText = globalOEMs.length;
+            document.getElementById('cnt-volume').innerText = globalOEMs.filter(o => o.category === 'volume').length;
+            document.getElementById('cnt-china').innerText = globalOEMs.filter(o => o.category === 'china').length;
+            document.getElementById('cnt-premium').innerText = globalOEMs.filter(o => o.category === 'premium').length;
+            document.getElementById('cnt-heavy').innerText = globalOEMs.filter(o => o.category === 'heavy').length;
+        }
+
+        // Event Listeners Configuration
+        function setupEventListeners() {
+            // Category Filter Buttons
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => b.classList.remove('ring-2', 'ring-white', 'opacity-100'));
+                    btn.classList.add('ring-2', 'ring-white');
+
+                    activeCategory = btn.getAttribute('data-cat');
+                    const searchValue = document.getElementById('search-input').value;
+
+                    renderMarkers(searchValue);
+                    renderSidebarList(searchValue);
+                });
+            });
+
+            // Search Bar Input
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                const val = e.target.value;
+                renderMarkers(val);
+                renderSidebarList(val);
+            });
+
+            // Back to General List Button
+            document.getElementById('back-to-list').addEventListener('click', () => {
+                document.getElementById('default-info').classList.remove('hidden');
+                document.getElementById('detail-panel').classList.add('hidden');
+                map.flyTo([20.0, 10.0], 3, { duration: 1.0 });
+            });
+
+            // Mobile Sidebar Control Toggle
+            const sidebar = document.getElementById('sidebar');
+            document.getElementById('open-sidebar-mobile').addEventListener('click', () => {
+                sidebar.classList.remove('-translate-x-full');
+            });
+            document.getElementById('close-sidebar-mobile').addEventListener('click', () => {
+                sidebar.classList.add('-translate-x-full');
+            });
+        }
+
+        // Load map on page readiness
+        window.addEventListener('DOMContentLoaded', initMap);
+    </script>
+</body>
+
+</html>
