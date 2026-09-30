@@ -420,18 +420,27 @@ tr:nth-child(even) {
 }
 
 .conteudo-ampliado2 {
-    font-size: 10px;
-    width: 60%;
+    font-size: 20px;
+    max-width: 95%;
+    height: 100vh;
 }
 
-.overlay.ativo .conteudo-ampliado,
-.overlay2.ativo .conteudo-ampliado2 {
+.slide-expressao {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.card-expressao {
+    width: 50%;
+}
+
+.overlay.ativo .conteudo-ampliado {
     transform: scale(1.5);
 }
 
-button {
-    font-size: 10px;
-    color: #0f172a;
+.overlay2.ativo .conteudo-ampliado2 {
+    transform: scale(1);
 }
 
 @media (max-width: 768px) {
