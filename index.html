@@ -37,10 +37,12 @@
             <h4>2. Meados Do Século XX: As Crises De Poluição E A Saúde Pública (1940–1960)</h4>
             <p>Com a expansão da indústria pesada e do uso do carvão e petróleo no século XX, grandes episódios críticos
               de poluição chamaram a atenção global para os perigos dos gases industriais e do smog.
-              <br> O Grande Smog de Londres (1952): Uma densa camada de fuligem e dióxido de enxofre (SO<sub>2</sub>)
-              decorrente da
-              queima industrial e residencial matou milhares de pessoas em poucos dias. Esse desastre motivou o Reino
-              Unido a aprovar o Clean Air Act em 1956.
+            <ul>
+              <li>O Grande Smog de Londres (1952): Uma densa camada de fuligem e dióxido de enxofre (SO<sub>2</sub>)
+                decorrente da queima industrial e residencial matou milhares de pessoas em poucos dias. Esse desastre
+                motivou o Reino FUnido a aprovar o Clean Air Act em 1956.
+              </li>
+            </ul>
             </p>
           </div>
           <div class="card">
@@ -133,8 +135,8 @@
         <div class="grid-2">
           <div class="card">
             <p>
-              Um glóbulo vermelho do sangue mede aproximadamente 7 a 8 micrômetros. <br>
-              Um fio de cabelo mede aproximadamente 25 a 75 micrômetros.
+              Um glóbulo vermelho do sangue mede de 7 a 8 micrômetros. <br>
+              Um fio de cabelo mede de 25 a 75 micrômetros.
             </p>
           </div>
         </div>
@@ -305,7 +307,8 @@
         <span class="tag-fase">Legislação Nacional</span>
       </div>
       <div class="slide-content">
-        <p>Criados pelo CONAMA e coordenados pelo IBAMA, o PROCONVE e o PROMOT alinham o Brasil aos padrões
+        <p>Criados pelo CONAMA e coordenados pelo IBAMA, o PROCONVE (Programa de Controle da Poluição do Ar por Veículos
+          Automotores) e o PROMOT alinham o Brasil aos padrões
           internacionais.</p>
         <div class="grid-2">
           <div class="card">
@@ -320,10 +323,55 @@
                 acompanhados pela melhoria da qualidade da gasolina nacional.</li>
               <li><strong>L6e L7 (2022):</strong><br> Metas de emissões evaporativas do tanque de combustível muito mais
                 rígidas (máximo de 0,5g/dia) e medição em condições reais de tráfego.</li>
-              <li><strong>L8 (2025–2031):</strong><br> Mudança para o modelo corporativo de emissões. Exige uso masivo
+              <li><strong>L8 (2025–2031):</strong><br> Mudança para o <strong onclick="abrirZoom2()">Modelo
+                  Corporativo (Crédito de Emissão Média Corporativa)</strong> de emissões. Exige uso masivo
                 de filtros de partículas em motores flex/gasolina (GPF) e eletrificação parcial (sistemas híbridos leves
                 e plenos).</li>
             </ul>
+            <div class="overlay2" id="meuOverlay2" onclick="fecharZoom2()">
+              <div class="conteudo-ampliado2" onclick="event.stopPropagation()">
+                <p>
+                  A nova regra corporativa diz: "Uma fabricante pode vender carros que poluem mais,
+                  desde que venda em quantidade suficiente outros carros que poluem menos (ou zero) para que a média
+                  geral de todos os carros vendidos no ano fique dentro do limite
+                  estipulado." <br>
+                  Exemplo Prático: <br>
+                  Considere o limite médio corporativo de emissão de um determinado poluente seja de 50 mg/km por carro
+                  vendido no ano. <br>
+                  A montadora vende apenas dois modelos no mercado brasileiro:
+                <ul>
+                  <li>Modelo A (SUV V6 a combustão):** Emite **80 mg/km** (acima do limite individual).</li>
+                  <li>Modelo B (Carro 100% Elétrico):** Emite **0 mg/km** (muito abaixo do limite).</li>
+                </ul>
+                Cenário 1: Vendas Descompensadas (Multa ou Não Conformidade). <br>
+                Se a montadora vender 1.000 unidades do SUV A e apenas 100 unidades do Elétrico B: <br>
+
+                Média Corporativa = \frac{(1.000 \times 80) + (100 \times 0)}{1.000 + 100} =
+                \frac{80.000}{1.100} \approx 72,7 \text{ mg/km}$$
+
+                <br>Resultado: Como 72,7 mg/km é superior ao limite de 50 mg/km, a fabricante está em não conformidade
+                com a
+                meta corporativa. <br>
+
+                Cenário 2: Vendas Compensadas (Conformidade Garantida) <br>
+                Para conseguir vender as 1.000 unidades do SUV A que polui 80 mg/km, a montadora incentiva a venda
+                do Elétrico B e consegue comercializar 1.000 unidades dele no mesmo ano: <br>
+
+                $$\text{Média Corporativa} = \frac{(1.000 \times 80) + (1.000 \times 0)}{1.000 + 1.000} =
+                \frac{80.000}{2.000} = 40 \text{ mg/km}$$
+
+                <br> Resultado: A média corporativa anual fica em 40 mg/km, dentro do limite de 50 mg/km. A
+                fabricante pode continuar vendendo o SUV poluidor sem penalidades.
+                Como as Fabricantes Usam Isso na Prática? <br>
+                Lançamento de Híbridos/EVs como "Balança": Carros elétricos e híbridos plug-in reduzem drasticamente a
+                média da empresa. <br>
+                Flexibilidade na Frota: Permite manter carros esportivos, picapes pesadas e SUVs V6/V8 de alta margem de
+                lucro na linha de produtos, financiando indiretamente a introdução de veículos de emissão zero ou
+                ultrabaixa.
+                </p><br>
+                <button onclick="fecharZoom2()">Fechar</button>
+              </div>
+            </div>
           </div>
           <div class="card">
             <h3>Veículos Pesados (Proconve P) & PROMOT</h3>
@@ -813,6 +861,14 @@
 
     function fecharZoom() {
       document.getElementById('meuOverlay').classList.remove('ativo');
+    }
+
+    function abrirZoom2() {
+      document.getElementById('meuOverlay2').classList.add('ativo');
+    }
+
+    function fecharZoom2() {
+      document.getElementById('meuOverlay2').classList.remove('ativo');
     }
   </script>
 

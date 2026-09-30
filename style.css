@@ -385,13 +385,14 @@ tr:nth-child(even) {
 }
 
 /* Fundo escuro (Overlay) */
-.overlay {
+.overlay,
+.overlay2 {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.75);
+    height: 120vh;
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -402,7 +403,8 @@ tr:nth-child(even) {
 }
 
 /* Estado ativo do Overlay */
-.overlay.ativo {
+.overlay.ativo,
+.overlay2.ativo {
     opacity: 1;
     pointer-events: auto;
 }
@@ -417,7 +419,13 @@ tr:nth-child(even) {
     transition: transform 0.3s ease;
 }
 
-.overlay.ativo .conteudo-ampliado {
+.conteudo-ampliado2 {
+    font-size: 10px;
+    width: 60%;
+}
+
+.overlay.ativo .conteudo-ampliado,
+.overlay2.ativo .conteudo-ampliado2 {
     transform: scale(1.5);
 }
 
