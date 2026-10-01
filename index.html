@@ -264,50 +264,77 @@
           <div class="card card">
             <ul>
               <li><strong>EGR</strong> (Exhaust Gas Recirculation): <br>
-                A válvula EGR redireciona uma porcentagem calculada dos gases de
+                A válvula EGR redireciona uma <strong onclick="abrirZoom3()"
+                  style="color: var(--cor-sucesso)">porcentagem calculada dos gases</strong> de
                 escape (que já queimaram e possuem pouco oxigênio) de volta para o coletor de admissão. Ao misturar
-                esses gases inertes ao ar limpo admitido,
-                diminui-se a concentração de oxigênio na mistura e absorve-se parte do calor da explosão, reduzindo a
-                temperatura máxima da câmara e inibindo a formação de NO<sub>x</sub>.
-
-                <table class="egr">
-                  <thead>
-                    <tr>
-                      <th>Condição de Condução</th>
-                      <th>Abertura da EGR</th>
-                      <th>Porcentagem Recirculada</th>
-                      <th>Objetivo Principal</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Marcha lenta / Motor frio</td>
-                      <td>Fechada ou mínima</td>
-                      <td>0% a 5%</td>
-                      <td>Estabilidade da lenta e aquecimento rápido</td>
-                    </tr>
-                    <tr>
-                      <td>Cruzeiro / Carga parcial</td>
-                      <td>Totalmente ativa</td>
-                      <td>15% a 40%</td>
-                      <td>Redução de emissões de NO<sub>x</sub> e economia de combustível</td>
-                    </tr>
-                    <tr>
-                      <td>Aceleração total / Subidas</td>
-                      <td>Fechada</td>
-                      <td>0%</td>
-                      <td>Desempenho máximo e entrega de potência</td>
-                    </tr>
-                  </tbody>
-                </table>
+                esses gases inertes ao ar limpo admitido, diminui-se a concentração de oxigênio na mistura e absorve-se
+                parte do calor da explosão, reduzindo a temperatura máxima da câmara e inibindo a formação de
+                NO<sub>x</sub>.
               </li>
+
+              <div class="overlay" id="meuOverlay3" onclick="fecharZoom3()">
+                <div class="conteudo-ampliado3" onclick="event.stopPropagation()">
+                  <div class="slide-content">
+                    <div class="card">
+                      <table class="table-container">
+                        <thead>
+                          <tr>
+                            <th>Condição de Condução</th>
+                            <th>Abertura da EGR</th>
+                            <th>Porcentagem Recirculada</th>
+                            <th>Objetivo Principal</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Marcha lenta / Motor frio</td>
+                            <td>Fechada ou mínima</td>
+                            <td>0% a 5%</td>
+                            <td>Estabilidade da lenta e aquecimento rápido</td>
+                          </tr>
+                          <tr>
+                            <td>Cruzeiro / Carga parcial</td>
+                            <td>Totalmente ativa</td>
+                            <td>15% a 50%</td>
+                            <td>Redução de emissões de NO<sub>x</sub> e economia de combustível</td>
+                          </tr>
+                          <tr>
+                            <td>Aceleração total / Subidas</td>
+                            <td>Fechada</td>
+                            <td>0%</td>
+                            <td>Desempenho máximo e entrega de potência</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="card">
+                      <p>
+                        <strong style="color: var(--cor-destaque)">Faixa Ideal de Trabalho da EGR</strong> <br>
+                        <strong>Rotação do Motor:</strong> Entre 1.500 RPM e 2.800 RPM (motores a Diesel) e 1.800 RPM e
+                        3.200 RPM
+                        (motores a Gasolina/Flex). <br>
+                        <strong>Carga do Motor:</strong> Carga parcial/média (pedal do acelerador mantido levemente
+                        pressionado entre 15%
+                        e 40%). <br>
+                        <strong>Velocidade de Cruzeiro:</strong> Em rodovias plana (fórmulas de cruzeiro), isso equivale
+                        geralmente a 80
+                        km/h a 110 km/h na marcha mais alta do câmbio.
+                      </p>
+                      <button class="nav-btn" onclick="fecharZoom3()">Fechar</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
               <li><strong>DOC</strong> (Diesel Oxidation Catalyst): <br>
                 Converte hidrocarbonetos (HC) e monóxido de carbono (CO) em água e
                 CO<sub>2</sub>.</li>
               <li><strong>DPF</strong> (Diesel Particulate Filter): <br>
                 Retém a fuligem física. Quando atinge o limite de carga, a central
                 eletrônica realiza a regeneração (injetando diesel extra para elevar a temperatura do escape a mais de
-                550 °C e queimar a fuligem acumulada).</li>
+                550 °C e queimar a fuligem acumulada) que em muitos veículos com a luz da reserva acesa o processo é
+                bloqueado.</li>
               <li><strong>SCR</strong> (Selective Catalytic Reduction): <br>
                 O ARLA 32 é pulverizado nos gases de escape quentes,
                 transformando o Óxido de Nitrogênio (NO<sub>x</sub>) em Nitrogênio e água.</li>
@@ -319,11 +346,10 @@
             <div class="thumb" onclick="abrirZoom()">
               <img id="thumb-img" src="./doc/img/euro 6 e 7.webp" alt="">
             </div>
-
             <div class="overlay" id="meuOverlay" onclick="fecharZoom()">
               <div class="conteudo-ampliado" onclick="event.stopPropagation()">
                 <video src="./doc/video/euro6.mkv" controls></video><br>
-                <button onclick="fecharZoom()">Fechar</button>
+                <button class="nav-btn" onclick="fecharZoom()">Fechar</button>
               </div>
             </div>
 
@@ -354,11 +380,12 @@
               <li><strong>L4 e L5 (2005–2009):</strong><br> Endureceram substancialmente os limites de NO<sub>x</sub> e
                 HC,
                 acompanhados pela melhoria da qualidade da gasolina nacional.</li>
-              <li><strong>L6e L7 (2022):</strong><br> Metas de emissões evaporativas do tanque de combustível muito mais
+              <li><strong>L6 e L7 (2022):</strong><br> Metas de emissões evaporativas do tanque de combustível muito
+                mais
                 rígidas (máximo de 0,5g/dia) e medição em condições reais de tráfego.</li>
               <li><strong>L8 (2025–2031):</strong><br> Mudança para o <strong onclick="abrirZoom2()"
-                  style="color: var(--cor-sucesso)">Modelo
-                  Corporativo (Crédito de Emissão Média Corporativa)</strong> de emissões. Exige uso massivo
+                  style="color: var(--cor-sucesso)">Modelo Corporativo (Crédito de Emissão Média Corporativa)</strong>
+                de emissões. Exige uso massivo
                 de filtros de partículas em motores flex/gasolina (GPF) e eletrificação parcial (sistemas híbridos leves
                 e plenos).</li>
             </ul>
@@ -465,8 +492,9 @@
         <div class="grid-4">
           <div class="card">
             <h4>1. RDE Ampliado</h4>
-            <p>Testes em Condições Reais de Condução abrangendo frio extremo, trajetos curtos e medição de particulas a
-              partir de 10nm (PN<sub>10</sub>), e poluenges não regulamentados (N<sub>2</sub>O e NH<sub>3</sub>).</p>
+            <p>Testes em Condições Reais de Condução abrangendo frio extremo, trajetos curtos, medição de particulas a
+              partir de 10&mu;m (PN<sub>10</sub>), e a entrada de poluenges não regulamentados (óxido nitroso
+              N<sub>2</sub>O e amônio NH<sub>3</sub>).</p>
           </div>
           <div class="card">
             <h4>2. Atrito Mecânico</h4>
@@ -474,19 +502,13 @@
               motorizações.</p>
           </div>
           <div class="card">
-            <h4>3. Monitoramento OBM</h4>
-            <p>Sistemas On-Board Monitoring embarcados com sensores permanentes e proteção rigorosa anti-adulteração. O
-              próprio veículo passa a monitorar continuamente o seu nível de emissões usando sensores integrados.
-            </p>
+            <h4>3. Monitoramento Continuo OBM</h4>
+            <p>Sistemas On-Board Monitoring (OBM) embarcados com sensores permanentes e proteção rigorosa
+              anti-adulteração.</p>
           </div>
           <div class="card">
             <h4>4. Durabilidade da Bateria</h4>
-            <p>Métricas obrigatórias de retenção de capacidade para veículos híbridos e 100% elétricos.
-            <ul>
-              <li>As baterias devem reter pelo menos 80% da sua capacidade após 5 anos ou 100.000 km.</li>
-              <li>Devem manter pelo menos 72% após 8 anos ou 160.000 km.</li>
-            </ul>
-            </p>
+            <p>Métricas obrigatórias de retenção de capacidade para veículos híbridos e 100% elétricos.</p>
           </div>
         </div>
       </div>
@@ -508,7 +530,7 @@
             <p>Inclusão de medição imediata após a partida (&lt;250°C no catalisador), momento onde ocorre até 80% dos
               picos de poluição não contabilizados em testes antigos.</p>
           </div>
-          <div class="card">
+          <div class="card card-alerta">
             <h3>Testes com Veículo Completo</h3>
             <p>Transição da homologação baseada apenas no motor em bancada para o teste integrado do veículo rodando em
               vias reais com PEMS (Sistemas Portáteis de Medição).</p>
@@ -933,6 +955,14 @@
 
     function fecharZoom2() {
       document.getElementById('meuOverlay2').classList.remove('ativo');
+    }
+
+    function abrirZoom3() {
+      document.getElementById('meuOverlay3').classList.add('ativo');
+    }
+
+    function fecharZoom3() {
+      document.getElementById('meuOverlay3').classList.remove('ativo');
     }
   </script>
 

@@ -223,15 +223,6 @@ table {
     font-size: 0.9rem;
 }
 
-.egr {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-
-    border: var(--cor-sucesso) 1px solid;
-    font-size: 0.5rem;
-}
-
 th {
     background-color: rgba(15, 23, 42, 0.8);
     color: var(--cor-destaque);
@@ -409,6 +400,8 @@ tr:nth-child(even) {
     pointer-events: none;
     transition: opacity 0.3s ease;
     z-index: 1000;
+
+    gap: 15px;
 }
 
 /* Estado ativo do Overlay */
@@ -432,6 +425,10 @@ tr:nth-child(even) {
     font-size: 20px;
     max-width: 95%;
     height: 100vh;
+}
+
+.conteudo-ampliado3 {
+    margin: 50px;
 }
 
 .slide-expressao {
