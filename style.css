@@ -269,12 +269,10 @@ tr:nth-child(even) {
     gap: 8px;
 }
 
-.nav-btn.ampliado {
-    transform: scale(0.7);
-}
-
-.nav-btn .ampliado .absolute {
+.nav-btn.p-ab {
     position: absolute;
+    top: 40px;
+    left: 40px;
 }
 
 .nav-btn:hover {
@@ -386,13 +384,12 @@ tr:nth-child(even) {
 }
 
 /* Fundo escuro (Overlay) */
-.overlay,
-.overlay2 {
+.overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
@@ -405,8 +402,7 @@ tr:nth-child(even) {
 }
 
 /* Estado ativo do Overlay */
-.overlay.ativo,
-.overlay2.ativo {
+.overlay.ativo {
     opacity: 1;
     pointer-events: auto;
 }
@@ -416,34 +412,12 @@ tr:nth-child(even) {
     color: #333;
     padding: 30px;
     border-radius: 12px;
-    max-width: 100%;
+    width: 100%;
+    min-height: inherit;
     transition: transform 0.3s ease;
-}
-/*
-.conteudo-ampliado2 {
-    font-size: 20px;
-    max-width: 95%;
-    height: 100vh;
-}
-
-.conteudo-ampliado3 {
-    margin: 50px;
-}
-
-.conteudo-ampliado4,
-.conteudo-ampliado5 {
+    
     margin: auto;
-    justify-content: center;
-    align-items: center;
-}*/
-
-/*.overlay.ativo .conteudo-ampliado {
-    transform: scale(1.5);
 }
-
-.overlay2.ativo .conteudo-ampliado2 {
-    transform: scale(1);
-}*/
 
 .slide-expressao {
     display: flex;
@@ -458,11 +432,20 @@ tr:nth-child(even) {
 img {
     background-size: cover;
     border-radius: 10px;
+    min-width: 100%;
+}
+
+.meu-mirai {
+    background-size: cover;
+    border-radius: 10px;
+    height: 90vh;
 }
 
 video {
     background-size: cover;
     border-radius: 10px;
+    min-height: 90vh;
+    padding: auto;
 }
 
 @media (max-width: 768px) {
