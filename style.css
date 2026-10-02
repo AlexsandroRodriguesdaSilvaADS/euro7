@@ -118,22 +118,6 @@ body {
     gap: 20px;
 }
 
-.slide-vehicle img {
-    background-size: cover;
-    height: 100%;
-    width: 100%;
-    border-radius: 10px;
-}
-
-.diesel {
-    width: 100%;
-}
-
-.diesel img {
-    width: 100%;
-    border-radius: 10px;
-}
-
 p,
 li {
     color: var(--cor-texto-principal);
@@ -289,6 +273,10 @@ tr:nth-child(even) {
     transform: scale(0.7);
 }
 
+.nav-btn .ampliado .absolute {
+    position: absolute;
+}
+
 .nav-btn:hover {
     background: var(--cor-destaque);
     color: var(--cor-fundo-slide);
@@ -398,13 +386,13 @@ tr:nth-child(even) {
 }
 
 /* Fundo escuro (Overlay) */
-.overlay,
+.overlay, 
 .overlay2 {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 120vh;
+    height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
@@ -413,12 +401,11 @@ tr:nth-child(even) {
     pointer-events: none;
     transition: opacity 0.3s ease;
     z-index: 1000;
-
     gap: 15px;
 }
 
 /* Estado ativo do Overlay */
-.overlay.ativo,
+.overlay.ativo, 
 .overlay2.ativo {
     opacity: 1;
     pointer-events: auto;
@@ -444,6 +431,18 @@ tr:nth-child(even) {
     margin: 50px;
 }
 
+.conteudo-ampliado4 {
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.conteudo-ampliado5 {
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
 .slide-expressao {
     display: flex;
     justify-content: center;
@@ -452,6 +451,16 @@ tr:nth-child(even) {
 
 .card-expressao {
     width: 50%;
+}
+
+img {
+    background-size: cover;
+    border-radius: 10px;
+}
+
+video {
+    background-size: cover;
+    border-radius: 10px;
 }
 
 .overlay.ativo .conteudo-ampliado {

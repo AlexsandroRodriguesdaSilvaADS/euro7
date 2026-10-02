@@ -38,7 +38,7 @@
             <p>Com a expansão da indústria pesada e do uso do carvão e petróleo no século XX, grandes episódios críticos
               de poluição chamaram a atenção global para os perigos dos gases industriais e do smog.
             <ul>
-              <li>O Grande Smog de Londres (1952): Uma densa camada de fuligem e dióxido de enxofre (SO<sub>2</sub>)
+              <li style="font-size: 13pt;">O Grande Smog de Londres (1952): Uma densa camada de fuligem e dióxido de enxofre (SO<sub>2</sub>)
                 decorrente da queima industrial e residencial matou milhares de pessoas em poucos dias. Esse desastre
                 motivou o Reino FUnido a aprovar o Clean Air Act em 1956.
               </li>
@@ -50,9 +50,9 @@
             <p>A partir dos anos 1970, o controle de emissões industriais deixou de ser uma discussão meramente local
               para se tornar uma pauta diplomática internacional:
             <ul>
-              <li>Conferência de Estocolmo (1972): A Organização das Nações Unidas (ONU) realizou a primeira grande
+              <li style="font-size: 13pt;">Conferência de Estocolmo (1972): <br> A Organização das Nações Unidas (ONU) realizou a primeira grande
                 conferência com foco na chuva ácida provocada por SO<sub>2</sub> e NO<sub>x</sub>.</li>
-              <li>Protocolo de Montreal (1987): Focado no controle e eliminação dos clorofluorcarbonetos (CFCs).</li>
+              <li style="font-size: 13pt;">Protocolo de Montreal (1987): <br> Focado no controle e eliminação dos clorofluorcarbonetos (CFCs).</li>
             </ul>
             </p>
           </div>
@@ -325,7 +325,6 @@
                       <button class="nav-btn" onclick="fecharZoom3()">Fechar</button>
                     </div>
                   </div>
-
                 </div>
               </div>
 
@@ -346,7 +345,7 @@
             </ul>
 
             <div class="thumb" onclick="abrirZoom()">
-              <img id="thumb-img" src="./doc/img/euro 6 e 7.webp" alt="">
+              <img id="thumb-img" src="./doc/img/euro6.webp" alt="">
             </div>
             <div class="overlay" id="meuOverlay" onclick="fecharZoom()">
               <div class="conteudo-ampliado" onclick="event.stopPropagation()">
@@ -539,6 +538,15 @@
               vias reais com PEMS (Sistemas Portáteis de Medição).</p>
           </div>
         </div>
+
+        <h3 class="mouseOver" onclick="abrirZoom6()">Partida a Frio e Testes</h3>
+        <div class="overlay" id="meuOverlay6" onclick="fecharZoom6()">
+          <div class="conteudo-ampliado4" onclick="event.stopPropagation()">
+            <img src="./doc/img/partidaFrio-e-Testes.jpeg" alt="">
+            <button class="nav-btn ampliado absolute" onclick="fecharZoom6()">Fechar</button>
+          </div>
+        </div>
+
       </div>
 
     </section>
@@ -592,9 +600,15 @@
             </ul>
           </div>
         </div>
-        <div class="slide-vehicle">
-          <img src="" alt="">
+
+        <h3 class="mouseOver" onclick="abrirZoom4()">OBM e Auditoria Remota</h3>
+        <div class="overlay" id="meuOverlay4" onclick="fecharZoom4()">
+          <div class="conteudo-ampliado4" onclick="event.stopPropagation()">
+            <img src="./doc/img/obm.jpeg" alt="">
+            <button class="nav-btn ampliado" onclick="fecharZoom4()">Fechar</button>
+          </div>
         </div>
+
       </div>
     </section>
 
@@ -721,9 +735,15 @@
             <p>Eficiência total para frotas urbanas e de distribuição local, com custo de rodagem reduzido.</p>
           </div>
         </div>
-        <div class="diesel">
-          <img src="./doc/img/diesel.png" alt="">
+
+        <h3 class="mouseOver" onclick="abrirZoom5()">Tendência do Diesel</h3>
+        <div class="overlay" id="meuOverlay5" onclick="fecharZoom5()">
+          <div class="conteudo-ampliado5" onclick="event.stopPropagation()">
+            <img src="./doc/img/diesel.png" alt="">
+            <button class="nav-btn ampliado" onclick="fecharZoom5()">Fechar</button>
+          </div>
         </div>
+
     </section>
 
     <!-- 14. Benefícios Esperados & Desafios Econômicos -->
@@ -819,9 +839,15 @@
             </ul>
           </div>
         </div>
-        <div class="slide-vehicle">
-          <img src="./doc/img/mirai.jpg" alt="">
+
+        <h3 class="mouseOver" onclick="abrirZoom6()">Toyota Mirai</h3>
+        <div class="overlay" id="meuOverlay6" onclick="fecharZoom6()">
+          <div class="conteudo-ampliado6" onclick="event.stopPropagation()">
+            <img src="./doc/img/mirai.jpg" alt="">
+            <button class="nav-btn ampliado" onclick="fecharZoom6()">Fechar</button>
+          </div>
         </div>
+
       </div>
     </section>
 
@@ -917,7 +943,7 @@
     });
 
     // Suporte a Gestos Touch / Swipe em Dispositivos Móveis
-    let touchStartX = 0;
+    /*let touchStartX = 0;
     let touchEndX = 0;
 
     document.addEventListener('touchstart', (e) => {
@@ -937,7 +963,7 @@
       if (touchEndX > touchStartX + swipeThreshold) {
         changeSlide(-1); // Swipe para a direita -> Anterior
       }
-    }
+    }*/
 
     // Inicializar na carga da página
     window.onload = () => {
@@ -969,6 +995,30 @@
 
     function fecharZoom3() {
       document.getElementById('meuOverlay3').classList.remove('ativo');
+    }
+
+    function abrirZoom4() {
+      document.getElementById('meuOverlay4').classList.add('ativo');
+    }
+
+    function fecharZoom4() {
+      document.getElementById('meuOverlay4').classList.remove('ativo');
+    }
+
+    function abrirZoom5() {
+      document.getElementById('meuOverlay5').classList.add('ativo');
+    }
+
+    function fecharZoom5() {
+      document.getElementById('meuOverlay5').classList.remove('ativo');
+    }
+
+    function abrirZoom6() {
+      document.getElementById('meuOverlay6').classList.add('ativo');
+    }
+
+    function fecharZoom6() {
+      document.getElementById('meuOverlay6').classList.remove('ativo');
     }
   </script>
 
