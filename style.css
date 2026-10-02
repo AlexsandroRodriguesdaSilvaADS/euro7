@@ -415,7 +415,7 @@ tr:nth-child(even) {
     width: 100%;
     min-height: inherit;
     transition: transform 0.3s ease;
-    
+
     margin: auto;
 }
 
@@ -453,7 +453,8 @@ video {
         font-size: 12pt;
     }
 
-    .overlay {
+    .overlay,
+    .overlay2 {
         display: none;
     }
 
