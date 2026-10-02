@@ -386,7 +386,7 @@ tr:nth-child(even) {
 }
 
 /* Fundo escuro (Overlay) */
-.overlay, 
+.overlay,
 .overlay2 {
     position: fixed;
     top: 0;
@@ -405,7 +405,7 @@ tr:nth-child(even) {
 }
 
 /* Estado ativo do Overlay */
-.overlay.ativo, 
+.overlay.ativo,
 .overlay2.ativo {
     opacity: 1;
     pointer-events: auto;
@@ -416,11 +416,10 @@ tr:nth-child(even) {
     color: #333;
     padding: 30px;
     border-radius: 12px;
-    max-width: 80%;
-    transform: scale(0.7);
+    max-width: 100%;
     transition: transform 0.3s ease;
 }
-
+/*
 .conteudo-ampliado2 {
     font-size: 20px;
     max-width: 95%;
@@ -431,17 +430,20 @@ tr:nth-child(even) {
     margin: 50px;
 }
 
-.conteudo-ampliado4 {
-    margin: auto;
-    justify-content: center;
-    align-items: center;
-}
-
+.conteudo-ampliado4,
 .conteudo-ampliado5 {
     margin: auto;
     justify-content: center;
     align-items: center;
+}*/
+
+/*.overlay.ativo .conteudo-ampliado {
+    transform: scale(1.5);
 }
+
+.overlay2.ativo .conteudo-ampliado2 {
+    transform: scale(1);
+}*/
 
 .slide-expressao {
     display: flex;
@@ -461,14 +463,6 @@ img {
 video {
     background-size: cover;
     border-radius: 10px;
-}
-
-.overlay.ativo .conteudo-ampliado {
-    transform: scale(1.5);
-}
-
-.overlay2.ativo .conteudo-ampliado2 {
-    transform: scale(1);
 }
 
 @media (max-width: 768px) {

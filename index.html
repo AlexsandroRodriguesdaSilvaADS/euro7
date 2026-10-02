@@ -38,7 +38,8 @@
             <p>Com a expansão da indústria pesada e do uso do carvão e petróleo no século XX, grandes episódios críticos
               de poluição chamaram a atenção global para os perigos dos gases industriais e do smog.
             <ul>
-              <li style="font-size: 13pt;">O Grande Smog de Londres (1952): Uma densa camada de fuligem e dióxido de enxofre (SO<sub>2</sub>)
+              <li style="font-size: 13pt;">O Grande Smog de Londres (1952): Uma densa camada de fuligem e dióxido de
+                enxofre (SO<sub>2</sub>)
                 decorrente da queima industrial e residencial matou milhares de pessoas em poucos dias. Esse desastre
                 motivou o Reino FUnido a aprovar o Clean Air Act em 1956.
               </li>
@@ -50,9 +51,11 @@
             <p>A partir dos anos 1970, o controle de emissões industriais deixou de ser uma discussão meramente local
               para se tornar uma pauta diplomática internacional:
             <ul>
-              <li style="font-size: 13pt;">Conferência de Estocolmo (1972): <br> A Organização das Nações Unidas (ONU) realizou a primeira grande
+              <li style="font-size: 13pt;">Conferência de Estocolmo (1972): <br> A Organização das Nações Unidas (ONU)
+                realizou a primeira grande
                 conferência com foco na chuva ácida provocada por SO<sub>2</sub> e NO<sub>x</sub>.</li>
-              <li style="font-size: 13pt;">Protocolo de Montreal (1987): <br> Focado no controle e eliminação dos clorofluorcarbonetos (CFCs).</li>
+              <li style="font-size: 13pt;">Protocolo de Montreal (1987): <br> Focado no controle e eliminação dos
+                clorofluorcarbonetos (CFCs).</li>
             </ul>
             </p>
           </div>
@@ -266,7 +269,7 @@
           <div class="card card">
             <ul>
               <li><strong>EGR</strong> (Exhaust Gas Recirculation): <br>
-                A válvula EGR redireciona uma <strong class="mouseOver" onclick="abrirZoom3()">porcentagem calculada dos
+                A válvula EGR redireciona uma <strong class="mouseOver" onclick="abrirZoom('meuOverlay')">porcentagem calculada dos
                   gases</strong> de escape (que já queimaram e possuem pouco oxigênio) de volta para o coletor de
                 admissão. Ao misturar esses gases inertes ao ar limpo admitido, diminui-se a concentração de oxigênio na
                 mistura e absorve-se parte do calor da explosão, reduzindo a temperatura máxima da câmara e inibindo a
@@ -274,8 +277,8 @@
                 NO<sub>x</sub>.
               </li>
 
-              <div class="overlay" id="meuOverlay3" onclick="fecharZoom3()">
-                <div class="conteudo-ampliado3" onclick="event.stopPropagation()">
+              <div class="overlay" id="meuOverlay">
+                <div class="conteudo-ampliado" onclick="event.stopPropagation()">
                   <div class="slide-content">
                     <div class="card">
                       <table class="table-container">
@@ -322,7 +325,7 @@
                         geralmente a 80
                         km/h a 110 km/h na marcha mais alta do câmbio.
                       </p> <br>
-                      <button class="nav-btn" onclick="fecharZoom3()">Fechar</button>
+                      <button class="nav-btn" onclick="fecharZoom('meuOverlay')">Fechar</button>
                     </div>
                   </div>
                 </div>
@@ -344,13 +347,13 @@
                 emissões de odor.</li>
             </ul>
 
-            <div class="thumb" onclick="abrirZoom()">
+            <div class="thumb" onclick="abrirZoom('meuOverlay2')">
               <img id="thumb-img" src="./doc/img/euro6.webp" alt="">
             </div>
-            <div class="overlay" id="meuOverlay" onclick="fecharZoom()">
+            <div class="overlay" id="meuOverlay2">
               <div class="conteudo-ampliado" onclick="event.stopPropagation()">
                 <video src="./doc/video/euro6.mkv" controls></video><br>
-                <button class="nav-btn ampliado" onclick="fecharZoom()">Fechar</button>
+                <button class="nav-btn ampliado" onclick="fecharZoom('meuOverlay2')">Fechar</button>
               </div>
             </div>
 
@@ -361,12 +364,10 @@
 
     <!-- 6. As Normas Brasileiras (PROCONVE e PROMOT) -->
     <section class="slide">
-
       <div class="slide-header">
         <h2>6. As Normas Brasileiras (PROCONVE e PROMOT)</h2>
         <span class="tag-fase">Legislação Nacional</span>
       </div>
-
       <div class="slide-content">
         <p>Criados pelo CONAMA e coordenados pelo IBAMA, o PROCONVE (Programa de Controle da Poluição do Ar por Veículos
           Automotores) e o PROMOT alinham o Brasil aos padrões internacionais.</p>
@@ -385,7 +386,7 @@
                 mais
                 rígidas (máximo de 0,5g/dia) e medição em condições reais de tráfego.</li>
               <li><strong>L8 (2025–2031):</strong><br> Mudança para o <strong class="mouseOver"
-                  onclick="abrirZoom2()">Modelo Corporativo (Crédito de Emissão Média Corporativa)</strong>
+                  onclick="abrirZoom('meuOverlay3')">Modelo Corporativo (Crédito de Emissão Média Corporativa)</strong>
                 de emissões. Exige uso massivo de filtros de partículas em motores flex/gasolina (GPF) e eletrificação
                 parcial (sistemas híbridos leves
                 e plenos).</li>
@@ -409,8 +410,8 @@
             </ul>
           </div>
 
-          <div class="overlay2" id="meuOverlay2" onclick="fecharZoom2()">
-            <div class="conteudo-ampliado2" onclick="event.stopPropagation()">
+          <div class="overlay2" id="meuOverlay3">
+            <div class="conteudo-ampliado" onclick="event.stopPropagation()">
               <div class="slide-content">
                 <div class="card">
                   <p>A nova regra corporativa diz: "Uma fabricante pode vender carros que poluem acima do limite,
@@ -471,9 +472,9 @@
                   </div>
                 </div>
                 <div class="card">
-                  </p>Resultado: A média corporativa anual fica em 40 mg/km, dentro do limite de 70 mg/km. A
-                  fabricante pode continuar vendendo o SUV sem penalidades.</p><br>
-                  <button class="nav-btn" onclick="fecharZoom2()">Fechar</button>
+                  <p>Resultado: A média corporativa anual fica em 40 mg/km, dentro do limite de 70 mg/km. A
+                    fabricante pode continuar vendendo o SUV sem penalidades.</p><br>
+                  <button class="nav-btn" onclick="fecharZoom('meuOverlay3')">Fechar</button>
                 </div>
               </div>
             </div>
@@ -539,11 +540,11 @@
           </div>
         </div>
 
-        <h3 class="mouseOver" onclick="abrirZoom6()">Partida a Frio e Testes</h3>
-        <div class="overlay" id="meuOverlay6" onclick="fecharZoom6()">
-          <div class="conteudo-ampliado4" onclick="event.stopPropagation()">
+        <h3 class="mouseOver" onclick="abrirZoom('meuOverlay4')">Partida a Frio e Testes</h3>
+        <div class="overlay" id="meuOverlay4">
+          <div class="conteudo-ampliado" onclick="event.stopPropagation()">
             <img src="./doc/img/partidaFrio-e-Testes.jpeg" alt="">
-            <button class="nav-btn ampliado absolute" onclick="fecharZoom6()">Fechar</button>
+            <button class="nav-btn" onclick="fecharZoom('meuOverlay4')">Fechar</button>
           </div>
         </div>
 
@@ -601,11 +602,11 @@
           </div>
         </div>
 
-        <h3 class="mouseOver" onclick="abrirZoom4()">OBM e Auditoria Remota</h3>
-        <div class="overlay" id="meuOverlay4" onclick="fecharZoom4()">
-          <div class="conteudo-ampliado4" onclick="event.stopPropagation()">
+        <h3 class="mouseOver" onclick="abrirZoom('meuOverlay5')">OBM e Auditoria Remota</h3>
+        <div class="overlay" id="meuOverlay5">
+          <div class="conteudo-ampliado" onclick="event.stopPropagation()">
             <img src="./doc/img/obm.jpeg" alt="">
-            <button class="nav-btn ampliado" onclick="fecharZoom4()">Fechar</button>
+            <button class="nav-btn" onclick="fecharZoom('meuOverlay5')">Fechar</button>
           </div>
         </div>
 
@@ -736,11 +737,11 @@
           </div>
         </div>
 
-        <h3 class="mouseOver" onclick="abrirZoom5()">Tendência do Diesel</h3>
-        <div class="overlay" id="meuOverlay5" onclick="fecharZoom5()">
-          <div class="conteudo-ampliado5" onclick="event.stopPropagation()">
+        <h3 class="mouseOver" onclick="abrirZoom('meuOverlay6')">Tendência do Diesel</h3>
+        <div class="overlay" id="meuOverlay6">
+          <div class="conteudo-ampliado" onclick="event.stopPropagation()">
             <img src="./doc/img/diesel.png" alt="">
-            <button class="nav-btn ampliado" onclick="fecharZoom5()">Fechar</button>
+            <button class="nav-btn" onclick="fecharZoom('meuOverlay6')">Fechar</button>
           </div>
         </div>
 
@@ -840,11 +841,11 @@
           </div>
         </div>
 
-        <h3 class="mouseOver" onclick="abrirZoom6()">Toyota Mirai</h3>
-        <div class="overlay" id="meuOverlay6" onclick="fecharZoom6()">
-          <div class="conteudo-ampliado6" onclick="event.stopPropagation()">
+        <h3 class="mouseOver" onclick="abrirZoom('meuOverlay7')">Toyota Mirai</h3>
+        <div class="overlay" id="meuOverlay7">
+          <div class="conteudo-ampliado" onclick="event.stopPropagation()">
             <img src="./doc/img/mirai.jpg" alt="">
-            <button class="nav-btn ampliado" onclick="fecharZoom6()">Fechar</button>
+            <button class="nav-btn" onclick="fecharZoom('meuOverlay7')">Fechar</button>
           </div>
         </div>
 
@@ -943,7 +944,7 @@
     });
 
     // Suporte a Gestos Touch / Swipe em Dispositivos Móveis
-    /*let touchStartX = 0;
+    let touchStartX = 0;
     let touchEndX = 0;
 
     document.addEventListener('touchstart', (e) => {
@@ -963,7 +964,7 @@
       if (touchEndX > touchStartX + swipeThreshold) {
         changeSlide(-1); // Swipe para a direita -> Anterior
       }
-    }*/
+    }
 
     // Inicializar na carga da página
     window.onload = () => {
@@ -971,54 +972,14 @@
       updateSlide();
     };
   </script>
-
+  
   <script>
-    function abrirZoom() {
-      document.getElementById('meuOverlay').classList.add('ativo');
+    function abrirZoom(id) {
+      document.getElementById(id).classList.add('ativo');
     }
 
-    function fecharZoom() {
-      document.getElementById('meuOverlay').classList.remove('ativo');
-    }
-
-    function abrirZoom2() {
-      document.getElementById('meuOverlay2').classList.add('ativo');
-    }
-
-    function fecharZoom2() {
-      document.getElementById('meuOverlay2').classList.remove('ativo');
-    }
-
-    function abrirZoom3() {
-      document.getElementById('meuOverlay3').classList.add('ativo');
-    }
-
-    function fecharZoom3() {
-      document.getElementById('meuOverlay3').classList.remove('ativo');
-    }
-
-    function abrirZoom4() {
-      document.getElementById('meuOverlay4').classList.add('ativo');
-    }
-
-    function fecharZoom4() {
-      document.getElementById('meuOverlay4').classList.remove('ativo');
-    }
-
-    function abrirZoom5() {
-      document.getElementById('meuOverlay5').classList.add('ativo');
-    }
-
-    function fecharZoom5() {
-      document.getElementById('meuOverlay5').classList.remove('ativo');
-    }
-
-    function abrirZoom6() {
-      document.getElementById('meuOverlay6').classList.add('ativo');
-    }
-
-    function fecharZoom6() {
-      document.getElementById('meuOverlay6').classList.remove('ativo');
+    function fecharZoom(id) {
+      document.getElementById(id).classList.remove('ativo');
     }
   </script>
 
