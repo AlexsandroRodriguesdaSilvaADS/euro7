@@ -40,6 +40,16 @@ body {
     line-height: 1.5;
 }
 
+.mouseOver {
+    cursor: pointer;
+    color: var(--cor-sucesso);
+}
+
+.mouseOver:hover {
+    color: var(--cor-alerta);
+    transition: all 0.3s ease;
+}
+
 .deck-container {
     position: relative;
     width: 100vw;
@@ -108,13 +118,12 @@ body {
     gap: 20px;
 }
 
-.slide-mirai img {
+.slide-vehicle img {
     background-size: cover;
     height: 100%;
     width: 100%;
     border-radius: 10px;
 }
-
 
 .diesel {
     width: 100%;
@@ -274,6 +283,10 @@ tr:nth-child(even) {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+.nav-btn.ampliado {
+    transform: scale(0.7);
 }
 
 .nav-btn:hover {

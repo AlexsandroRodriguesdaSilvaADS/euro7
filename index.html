@@ -225,7 +225,7 @@
               </tr>
               <tr>
                 <td>Pós-Tratamento (Escape)</td>
-                <td>SCR (Redução Catalítica Seletiva - ARLA 32)</td>
+                <td>SCR (Redução Catalítica Seletiva - <strong style="color: var(--cor-sucesso);">ARLA 32</strong>)</td>
                 <td>DOC (Catalisador de Oxidação Diesel) + ASC (Catalizador de
                   Escape de Amônia) + DPF + EGR</td>
                 <td>Arquitetura de pós-tratamento complexa</td>
@@ -240,14 +240,16 @@
                 <td>Combustível Exigido</td>
                 <td>Diesel S10 ou S50</td>
                 <td>Exclusivo Diesel S10</td>
-                <td>Exige óleos lubrificantes Low SAPS</td>
+                <td>Exige óleos lubrificantes <strong style="color: var(--cor-sucesso);">Low SAPS</strong></td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="card">
-          <p>ARLA 32: Mistura de Uréia a 32,5% e Água Desmineralizada a 67,5%.<br>
-            Low SAPS: Com baixos teores de Cinzas Sulfatadas, Fósforo e Enxofre - Sulphated Ash, Phosphorus and Sulfur.
+          <p><strong style="color: var(--cor-sucesso);">ARLA 32</strong> (Agente Redutor Líquido Automotivo): Mistura de
+            Uréia a 32,5% e Água Desmineralizada a 67,5%.<br>
+            <strong style="color: var(--cor-sucesso);">Low SAPS</strong>: Com baixos teores de Cinzas Sulfatadas,
+            Fósforo e Enxofre - Sulphated Ash, Phosphorus and Sulfur.
           </p>
         </div>
       </div>
@@ -264,11 +266,11 @@
           <div class="card card">
             <ul>
               <li><strong>EGR</strong> (Exhaust Gas Recirculation): <br>
-                A válvula EGR redireciona uma <strong onclick="abrirZoom3()"
-                  style="color: var(--cor-sucesso)">porcentagem calculada dos gases</strong> de
-                escape (que já queimaram e possuem pouco oxigênio) de volta para o coletor de admissão. Ao misturar
-                esses gases inertes ao ar limpo admitido, diminui-se a concentração de oxigênio na mistura e absorve-se
-                parte do calor da explosão, reduzindo a temperatura máxima da câmara e inibindo a formação de
+                A válvula EGR redireciona uma <strong class="mouseOver" onclick="abrirZoom3()">porcentagem calculada dos
+                  gases</strong> de escape (que já queimaram e possuem pouco oxigênio) de volta para o coletor de
+                admissão. Ao misturar esses gases inertes ao ar limpo admitido, diminui-se a concentração de oxigênio na
+                mistura e absorve-se parte do calor da explosão, reduzindo a temperatura máxima da câmara e inibindo a
+                formação de
                 NO<sub>x</sub>.
               </li>
 
@@ -319,7 +321,7 @@
                         <strong>Velocidade de Cruzeiro:</strong> Em rodovias plana (fórmulas de cruzeiro), isso equivale
                         geralmente a 80
                         km/h a 110 km/h na marcha mais alta do câmbio.
-                      </p>
+                      </p> <br>
                       <button class="nav-btn" onclick="fecharZoom3()">Fechar</button>
                     </div>
                   </div>
@@ -349,7 +351,7 @@
             <div class="overlay" id="meuOverlay" onclick="fecharZoom()">
               <div class="conteudo-ampliado" onclick="event.stopPropagation()">
                 <video src="./doc/video/euro6.mkv" controls></video><br>
-                <button class="nav-btn" onclick="fecharZoom()">Fechar</button>
+                <button class="nav-btn ampliado" onclick="fecharZoom()">Fechar</button>
               </div>
             </div>
 
@@ -383,10 +385,10 @@
               <li><strong>L6 e L7 (2022):</strong><br> Metas de emissões evaporativas do tanque de combustível muito
                 mais
                 rígidas (máximo de 0,5g/dia) e medição em condições reais de tráfego.</li>
-              <li><strong>L8 (2025–2031):</strong><br> Mudança para o <strong onclick="abrirZoom2()"
-                  style="color: var(--cor-sucesso)">Modelo Corporativo (Crédito de Emissão Média Corporativa)</strong>
-                de emissões. Exige uso massivo
-                de filtros de partículas em motores flex/gasolina (GPF) e eletrificação parcial (sistemas híbridos leves
+              <li><strong>L8 (2025–2031):</strong><br> Mudança para o <strong class="mouseOver"
+                  onclick="abrirZoom2()">Modelo Corporativo (Crédito de Emissão Média Corporativa)</strong>
+                de emissões. Exige uso massivo de filtros de partículas em motores flex/gasolina (GPF) e eletrificação
+                parcial (sistemas híbridos leves
                 e plenos).</li>
             </ul>
           </div>
@@ -418,8 +420,9 @@
                     estipulado."
                   </p>
                   <p>Exemplo Prático: <br>
-                    Considere o limite médio corporativo de emissão de um determinado poluente seja de 50 mg/km por
-                    carro vendido no ano. <br>
+                    O limite médio corporativo de emissão para NMHC (Hidrocarbonetos Não Metânicos) + NO<sub>x</sub> é
+                    de 70 mg/km por
+                    veículo leve de passageiros vendido no ano. <br>
                     A montadora vende apenas dois modelos no mercado brasileiro:
                   <ul>
                     <li>Modelo A (SUV V6 a combustão): Emite 80 mg/km (acima do limite individual).</li>
@@ -469,7 +472,7 @@
                   </div>
                 </div>
                 <div class="card">
-                  </p>Resultado: A média corporativa anual fica em 40 mg/km, dentro do limite de 50 mg/km. A
+                  </p>Resultado: A média corporativa anual fica em 40 mg/km, dentro do limite de 70 mg/km. A
                   fabricante pode continuar vendendo o SUV sem penalidades.</p><br>
                   <button class="nav-btn" onclick="fecharZoom2()">Fechar</button>
                 </div>
@@ -588,6 +591,9 @@
               <li>Mecanismos de segurança digital para impedir "chiptuning" e adulteração de ARLA 32 ou EGR.</li>
             </ul>
           </div>
+        </div>
+        <div class="slide-vehicle">
+          <img src="" alt="">
         </div>
       </div>
     </section>
@@ -813,7 +819,7 @@
             </ul>
           </div>
         </div>
-        <div class="slide-mirai">
+        <div class="slide-vehicle">
           <img src="./doc/img/mirai.jpg" alt="">
         </div>
       </div>
