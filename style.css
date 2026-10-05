@@ -272,7 +272,7 @@ tr:nth-child(even) {
 .nav-btn.p-ab {
     position: absolute;
     top: 40px;
-    left: 40px;
+    right: 65px;
 }
 
 .nav-btn:hover {
@@ -419,6 +419,10 @@ tr:nth-child(even) {
     margin: auto;
 }
 
+.img {
+    width: 1870px;
+}
+
 .slide-expressao {
     display: flex;
     justify-content: center;
@@ -441,11 +445,16 @@ img {
     height: 90vh;
 }
 
-video {
+.video {
     background-size: cover;
     border-radius: 10px;
-    min-height: 90vh;
-    padding: auto;
+    width: 100%;
+    
+}
+
+video {
+    height: 1000px;
+    width: 1880px;
 }
 
 @media (max-width: 768px) {
