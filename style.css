@@ -449,7 +449,6 @@ img {
     background-size: cover;
     border-radius: 10px;
     width: 100%;
-    
 }
 
 video {
@@ -458,17 +457,20 @@ video {
 }
 
 @media (max-width: 768px) {
+
     * {
         font-size: 12pt;
     }
 
     .overlay,
     .overlay2 {
-        display: none;
+        display: block;
+        height: 100vh;
     }
 
     .slide {
         padding: 20px 20px 80px 20px;
+        height: 100vh;
     }
 
     .slide-header h2 {
@@ -485,5 +487,40 @@ video {
 
     .controls-bar {
         padding: 0 15px;
+    }
+
+    .thumb {
+        width: 100%;
+    }
+
+    img {
+        min-width: 100px;
+    }
+
+    video {
+        height: 300px;
+        width: 350px;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+@media (max-width: 425px) {
+
+    .slide-content {
+        height: 100vh;
+    }
+
+    img {
+        min-width: 100px;
+    }
+
+    .table-container, 
+    .overlay .table-container {
+        width: 200px;
+    }
+
+    table {
+        font-size: 5px;
     }
 }
