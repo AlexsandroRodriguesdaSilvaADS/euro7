@@ -48,11 +48,14 @@ sup {
 .mouseOver {
     cursor: pointer;
     color: var(--cor-sucesso);
+    font-size: 14pt;
+    width: 300px;
 }
 
 .mouseOver:hover {
     color: var(--cor-alerta);
     transition: all 0.3s ease;
+    text-decoration: underline;
 }
 
 .deck-container {
@@ -166,6 +169,10 @@ li {
     padding: 20px;
     box-shadow: var(--sombra-cartao);
     justify-content: center;
+}
+
+.obs {
+    font-size: 14pt;
 }
 
 .card h3,

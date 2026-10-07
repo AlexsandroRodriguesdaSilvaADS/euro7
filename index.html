@@ -137,7 +137,7 @@
         </div>
         <div class="grid-2">
           <div class="card">
-            <p style="font-size: 12pt;">
+            <p class="obs">
               Um glóbulo vermelho do sangue mede de 7 a 8 micrômetros. <br>
               Um fio de cabelo mede de 25 a 75 micrômetros.
             </p>
@@ -250,9 +250,11 @@
           </table>
         </div>
         <div class="card">
-          <p><strong style="color: var(--cor-sucesso);">ARLA 32</strong> (Agente Redutor Líquido Automotivo): Mistura de
+          <p class="obs"><strong class="obs" style="color: var(--cor-sucesso);">ARLA 32</strong> (Agente Redutor Líquido
+            Automotivo): Mistura de
             Uréia a 32,5% com Água Desmineralizada a 67,5%.<br>
-            <strong style="color: var(--cor-sucesso);">Low SAPS</strong>: Com baixos teores de Cinzas Sulfatadas,
+            <strong class="obs" style="color: var(--cor-sucesso);">Low SAPS</strong>: Com baixos teores de Cinzas
+            Sulfatadas,
             Fósforo e Enxofre - Sulphated Ash, Phosphorus and Sulfur.
           </p>
         </div>
@@ -270,11 +272,10 @@
           <div class="card">
             <ul>
               <li><strong>EGR</strong> (Exhaust Gas Recirculation): <br>
-                A válvula EGR redireciona uma <strong class="mouseOver" onclick="abrirZoom('meuOverlay')">porcentagem
-                  calculada dos gases</strong> de escape (que já queimaram e possuem pouco oxigênio) de volta para o
-                coletor de
-                admissão. Ao misturar esses gases inertes ao ar limpo admitido, diminui-se a concentração de oxigênio na
-                mistura e absorve-se parte do calor da explosão, reduzindo a temperatura máxima da câmara e inibindo a
+                A válvula EGR redireciona uma <strong onclick="abrirZoom('meuOverlay')"><a href="#">porcentagem
+                  calculada dos gases</a></strong> de escape (que já queimaram e possuem pouco oxigênio) de volta para o
+                coletor de admissão. Ao misturar esses gases inertes ao ar limpo admitido, diminui-se a concentração de
+                oxigênio na mistura e absorve-se parte do calor da explosão, reduzindo a temperatura máxima da câmara e inibindo a
                 formação de
                 NO<sub>x</sub>.
               </li>
@@ -392,8 +393,7 @@
               <li><strong>L6 e L7 (2022):</strong><br> Metas de emissões evaporativas do tanque de combustível muito
                 mais
                 rígidas (máximo de 0,5g/dia) e medição em condições reais de tráfego.</li>
-              <li><strong>L8 (2025–2031):</strong><br> Mudança para o <strong class="mouseOver"
-                  onclick="abrirZoom('meuOverlay3')">Modelo Corporativo</strong> (Crédito de Emissão Média Corporativa)
+              <li><strong>L8 (2025–2031):</strong><br> Mudança para o <strong onclick="abrirZoom('meuOverlay3')"><a href="#">Modelo Corporativo</a></strong> (Crédito de Emissão Média Corporativa)
                 de emissões. Exige uso massivo de filtros de partículas em motores flex/gasolina (GPF) e eletrificação
                 parcial (sistemas híbridos leves
                 e plenos).</li>
@@ -732,30 +732,30 @@
               <tbody>
                 <tr>
                   <td>Íon de Lítio Convencional (NMC)</td>
-                  <td>Média-Alta (~250 Wh/kg)</td>
+                  <td>Média-Alta <br> (~250 Wh/kg)</td>
                   <td>~1.000 - 1.500</td>
-                  <td>Médio</td>
+                  <td>Médio (US$ 100 a US$ 130 / kWh)</td>
                   <td>Moderada</td>
                 </tr>
                 <tr>
                   <td>Lítio-Ferro-Fosfato (LFP / LMFP)</td>
-                  <td>Média (~180 - 210 Wh/kg)</td>
+                  <td>Média <br> (~180 - 210 Wh/kg, de 30% a 50% mais pesadas)</td>
                   <td>~3.000 - 5.000+</td>
                   <td>Baixo</td>
                   <td>Alta</td>
                 </tr>
                 <tr>
                   <td>Íon de Sódio (Na-Ion)</td>
-                  <td>Baixa-Média (~160 Wh/kg)</td>
+                  <td>Baixa-Média <br> (~160 Wh/kg, de 40% a 60% mais pesadas)</td>
                   <td>~3.000+</td>
                   <td>Muito baixa</td>
                   <td>Alta</td>
                 </tr>
                 <tr>
                   <td>Estado Sólido (Solid-State) <br> (cerâmico, polímero ou de sulfeto)</td>
-                  <td>Muito Alta (~400 - 500 Wh/kg)</td>
+                  <td>Muito Alta <br> (~400 - 500 Wh/kg, de 30% a 50% mais leves)</td>
                   <td>~2.000 - 4.000+</td>
-                  <td>Alto (atualmente)</td>
+                  <td>Alto (US$ 350 a US$ 600+ / kWh)</td>
                   <td>Excelente</td>
                 </tr>
               </tbody>
@@ -778,25 +778,31 @@
             <table>
               <tbody>
                 <tr>
-                  <td style="color: var(--cor-sucesso); background-color: rgba(15, 23, 42, 0.8);"><strong>Química de
+                  <td style="color: var(--cor-destaque); background-color: rgba(15, 23, 42, 0.8);"><strong>Química de
                       Compostos Avançados (Formulação de Borracha)</strong></td>
-                  <td><strong>Nova Geração de Sílica e Polímeros Covalentes:</strong> Utilização de cadeias de polímeros funcionais e
+                  <td><strong>Nova Geração de Sílica e Polímeros Covalentes:</strong> Utilização de cadeias de polímeros
+                    funcionais e
                     redes de ligação cruzada mais fortes para evitar o desprendimento de fragmentos microplásticos nas
                     estradas sob torque intenso.</td>
-                  <td><strong>Inclusão de Borracha Natural Sustentável e Bio-Resinas:</strong> Substituição de derivados de petróleo por
+                  <td><strong>Inclusão de Borracha Natural Sustentável e Bio-Resinas:</strong> Substituição de derivados
+                    de petróleo por
                     resinas bio-baseadas e compostos naturais que mantêm a flexibilidade sem deformação rápida.</td>
-                  <td><strong>Uso de Recovered Carbon Black (rCB):</strong> Incorporação de "negro de fumo" reciclado (20% a 30%) para
+                  <td><strong>Uso de Recovered Carbon Black (rCB):</strong> Incorporação de "negro de fumo" reciclado
+                    (20% a 30%) para
                     aumentar a resistência mecânica ao rasgo mantendo baixa taxa de atrito destrutivo.</td>
                 </tr>
                 <tr>
-                  <td style="color: var(--cor-sucesso); background-color: rgba(15, 23, 42, 0.8);"><strong>Otimização do
+                  <td style="color: var(--cor-destaque); background-color: rgba(15, 23, 42, 0.8);"><strong>Otimização do
                       Desenho da Banda de Rodagem e Estrutura (Tread & Cavity Design)</strong></td>
-                  <td><strong>Redistribuidores de Pressão de Contato:</strong> Reformulação da área de contato (footprint) do pneu com o
+                  <td><strong>Redistribuidores de Pressão de Contato:</strong> Reformulação da área de contato
+                    (footprint) do pneu com o
                     solo, distribuindo o peso do veículo de forma homogênea para evitar pontos de pressão excessiva e
                     desgaste localizado.</td>
-                  <td><strong>Sipagens de Geometria 3D Intertravadas (IA):</strong> Lâminas nos blocos da banda de rodagem que se travam
+                  <td><strong>Sipagens de Geometria 3D Intertravadas (IA):</strong> Lâminas nos blocos da banda de
+                    rodagem que se travam
                     mutuamente durante acelerações e travagens, reduzindo a torção do pneu e diminuindo a erosão por
                     atrito.</td>
+                  <td></td>
                 </tr>
               </tbody>
             </table>
