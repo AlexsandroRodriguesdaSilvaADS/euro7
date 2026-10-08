@@ -45,14 +45,14 @@ sup {
     font-size: 14pt;
 }
 
-.mouseOver {
-    cursor: pointer;
+a {
+    text-decoration: none;
     color: var(--cor-sucesso);
-    font-size: 14pt;
+    /*font-size: 14pt;*/
     width: 300px;
 }
 
-.mouseOver:hover {
+a:hover {
     color: var(--cor-alerta);
     transition: all 0.3s ease;
     text-decoration: underline;
