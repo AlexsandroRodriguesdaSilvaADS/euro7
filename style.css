@@ -401,16 +401,15 @@ tr:nth-child(even) {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background: rgba(0, 0, 0, 0.8);
     display: flex;
-    align-items: center;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
     z-index: 1000;
-    gap: 15px;
+    padding: 10px;
 }
 
 /* Estado ativo do Overlay */
@@ -421,7 +420,6 @@ tr:nth-child(even) {
 
 /* Conteúdo Ampliado no centro */
 .conteudo-ampliado {
-    color: #333;
     border-radius: 12px;
     padding: 10px;
     min-width: 100%;
