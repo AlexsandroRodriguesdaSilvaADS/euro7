@@ -413,10 +413,6 @@ tr:nth-child(even) {
     padding: 15px;
 }
 
-.cap6 {
-    height: 120%;
-}
-
 /* Estado ativo do Overlay */
 .overlay.ativo {
     opacity: 1;
@@ -429,6 +425,10 @@ tr:nth-child(even) {
     padding: 10px;
     transition: transform 0.3s ease;
     margin: auto;
+}
+
+.cap5 {
+    margin: 90px;
 }
 
 .img {
