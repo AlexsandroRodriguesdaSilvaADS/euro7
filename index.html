@@ -227,8 +227,8 @@
               <tr>
                 <td>Injeção de Combustível</td>
                 <td>Common Rail ou Unidades Injetoras (1.800 a 2.000 bar)</td>
-                <td>Common Rail de altíssima pressão (2.500 bar ou mais) com múltiplas injeções por ciclo (8 a 9; pré e
-                  pós)</td>
+                <td>Common Rail de altíssima pressão (2.500 bar ou mais) com <a onclick="abrirZoom('meuOverlay9')"
+                    href="#">múltiplas injeções por ciclo</a> (8 a 9; pré e pós)</td>
                 <td>Maximizar a eficiência e minimizar a formação de poluentes na origem</td>
               </tr>
               <tr>
@@ -267,6 +267,20 @@
           </p>
         </div>
       </div>
+
+      <div class="overlay" id="meuOverlay9">
+        <div class="conteudo-ampliado" onclick="event.stopPropagation()">
+          <div class="video">
+            <iframe width="560" height="315"
+              src="https://www.youtube.com/embed/nBiqyGls_nQ?si=frqGK7uBPXbBHMzX&amp;start=93&end=155"
+              title="YouTube video player" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          </div>
+          <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay9')">Fechar</button>
+        </div>
+      </div>
+
     </section>
 
     <!-- 4. Pós Tratamento -->
@@ -367,7 +381,7 @@
         <div class="overlay" id="meuOverlay2">
           <div class="conteudo-ampliado" onclick="event.stopPropagation()">
             <div class="video">
-              <video src="./doc/video/MotorEuro-6.mkv" controls></video><br>
+              <video src="./doc/video/euro6.mkv" controls></video>
             </div>
             <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay2')">Fechar</button>
           </div>
@@ -400,7 +414,8 @@
                 mais
                 rígidas (máximo de 0,5g/dia) e medição em condições reais de tráfego.</li>
               <li><strong>L8 (2025–2031):</strong><br> Mudança para o <a onclick="abrirZoom('meuOverlay3')"
-                  href="#">Modelo Corporativo de Emissões</a> (Crédito de Emissão Média Corporativa). Exige uso massivo de filtros de partículas em motores flex/gasolina (GPF) e eletrificação
+                  href="#">Modelo Corporativo de Emissões</a> (Crédito de Emissão Média Corporativa). Exige uso massivo
+                de filtros de partículas em motores flex/gasolina (GPF) e eletrificação
                 parcial (sistemas híbridos leves
                 e plenos).</li>
             </ul>
