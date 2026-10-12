@@ -101,3 +101,23 @@ function abrirZoom(id) {
 function fecharZoom(id) {
     document.getElementById(id).classList.remove('ativo');
 }
+
+
+// Controle de video
+const video = document.getElementById('meuVideo');
+
+// Definimos o trecho desejado (em segundos)
+const inicio = 93; // Começa aos 93 segundos
+const fim = 155;    // Termina aos 155 segundos
+
+// Quando o vídeo carregar, define o tempo inicial
+video.addEventListener('loadedmetadata', function () {
+    video.currentTime = inicio;
+});
+
+// Monitora o tempo atual do vídeo para pausar quando chegar no fim
+video.addEventListener('timeupdate', function () {
+    if (video.currentTime >= fim) {
+        video.pause();
+    }
+});
