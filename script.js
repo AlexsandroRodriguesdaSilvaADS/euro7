@@ -103,6 +103,7 @@ function fecharZoom(id) {
 }
 
 
+
 // Controle de video
 const video = document.getElementById('meuVideo');
 
