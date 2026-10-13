@@ -126,6 +126,12 @@ a:hover {
     gap: 20px;
 }
 
+h3 {
+    color: var(--cor-destaque);
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
 p,
 li {
     color: var(--cor-texto-principal);
