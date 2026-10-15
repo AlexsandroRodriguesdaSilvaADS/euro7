@@ -166,6 +166,12 @@ li {
     gap: 16px;
 }
 
+.grid-5 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+}
+
 /* Cards */
 .card {
     background-color: var(--cor-cartao-fundo);
