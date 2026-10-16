@@ -122,3 +122,28 @@ video.addEventListener('timeupdate', function () {
         video.pause();
     }
 });
+
+
+
+// Seleciona todas as divs que devem aparecer gradualmente
+const revealDivs = document.querySelectorAll('.reveal-div');
+let currentIndex = 0;
+
+// Função que avança para o próximo elemento ao clicar ou apertar espaço
+function revealNext() {
+    if (currentIndex < revealDivs.length) {
+        revealDivs[currentIndex].classList.add('active');
+        currentIndex++;
+    }
+}
+
+// Ouve cliques do mouse na tela inteira
+document.addEventListener('click', revealNext);
+
+// Ouve também a tecla de Espaço ou Seta Direita para facilitar o uso no teclado
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+        e.preventDefault(); // Evita a rolagem padrão da página com a barra de espaço
+        revealNext();
+    }
+});

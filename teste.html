@@ -1,62 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Efeito de Clique nos Slides</title>
     <style>
-        .caixa {
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-            margin-top: 15px;
-            padding: 20px;
-            background-color: #f0f4f8;
-            border-left: 4px solid #3182ce;
-            border-radius: 4px;
-            width: 300px;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
 
-        /* Estado quando a div está visível */
-        .caixa.ativo {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        .slide-container {
+            width: 80%;
+            max-width: 800px;
+            background: #2d2d2d;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
         }
+
+        h2 {
+            margin-top: 0;
+            color: #4CAF50;
+        }
+
+        /* O elemento começa invisível, deslocado para baixo e sem ocupar espaço físico visual */
+        .reveal-div {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            margin: 20px 0;
+            padding: 15px;
+            background: #3d3d3d;
+            border-left: 4px solid #4CAF50;
+            border-radius: 4px;
+            pointer-events: none;
+            /* Evita interação enquanto estiver oculto */
+        }
+
+        /* Classe ativada via JavaScript ao clicar */
+        .reveal-div.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
     </style>
 </head>
 
 <body>
-    <button id="meuBotao">Alternar Div (ou use as setas do teclado)</button>
 
-    <div id="minhaDiv" class="caixa">
-        <p>Olá! Eu apareci por clique ou teclado.</p>
+    <div class="slide-container">
+        <h2>Meu Tópico Principal</h2>
+
+        <div class="reveal-div">
+            <p><strong>Primeiro ponto:</strong> Este bloco aparece no primeiro clique.</p>
+        </div>
+
+        <div class="reveal-div">
+            <p><strong>Segundo ponto:</strong> Este bloco aparece no segundo clique.</p>
+        </div>
+
+        <div class="reveal-div">
+            <p><strong>Terceiro ponto:</strong> Este bloco aparece no terceiro clique.</p>
+        </div>
+
     </div>
-    <script>
-        const botao = document.getElementById('meuBotao');
-        const divAlvo = document.getElementById('minhaDiv');
 
-        // Função para alternar a classe ativo
-        function alternarDiv() {
-            divAlvo.classList.toggle('ativo');
-        }
+   
 
-        // Evento de clique no botão
-        botao.addEventListener('click', alternarDiv);
-
-        // Evento de teclado (exemplo: usando a seta para baixo ou seta para cima)
-        window.addEventListener('keydown', (evento) => {
-            // Você pode mudar para 'ArrowDown', 'ArrowUp', 'ArrowLeft', ou 'ArrowRight'
-            if (evento.key === 'ArrowRight') {
-                evento.preventDefault(); // Evita o comportamento padrão da página rolar com a seta
-                alternarDiv();
-            }
-        }
-
-        );
-    </script>
 </body>
 
 </html>
