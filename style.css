@@ -102,7 +102,7 @@ a:hover {
 .slide-header h2 {
     font-size: 2rem;
     background: var(--cor-gradiente-cabecalho);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 800;
     letter-spacing: -0.5px;
@@ -355,7 +355,7 @@ tr:nth-child(even) {
     font-size: 3.5rem;
     line-height: 1.15;
     background: var(--cor-gradiente-cabecalho);
-    -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 20px;
     font-weight: 900;
