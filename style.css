@@ -295,7 +295,7 @@ tr:nth-child(even) {
 
 .nav-btn.p-ab {
     position: absolute;
-    top: 20px;
+    top: 25px;
     right: 25px;
 }
 
@@ -415,7 +415,7 @@ tr:nth-child(even) {
     margin: auto;
     width: 100%;
     min-height: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: var(--cor-fundo-slide);
     display: flex;
     justify-content: center;
     opacity: 0;
@@ -472,13 +472,13 @@ img {
 
 .video {
     background-size: cover;
-    border-radius: 10px;
     width: 100%;
 }
 
 video {
     height: 100%;
     width: 100%;
+    border-radius: 10px;
 }
 
 @media (max-width: 768px) {
