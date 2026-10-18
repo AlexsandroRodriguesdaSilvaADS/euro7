@@ -477,7 +477,7 @@ img {
 
 video {
     height: 100%;
-    width: 100%;
+    min-width: 90vw;
     border-radius: 10px;
 }
 
