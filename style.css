@@ -440,7 +440,7 @@ tr:nth-child(even) {
 }
 
 .cap5 {
-    margin: 90px;
+    margin-top: 40px;
 }
 
 .img {
@@ -490,7 +490,6 @@ video {
     .overlay,
     .overlay2 {
         display: block;
-        height: 230vh;
     }
 
     .slide {
