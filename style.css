@@ -119,13 +119,11 @@ a:hover {
 .slide.active .table-container,
 .slide.active .metric-container,
 .slide.active .metric-card {
-    animation: pptFadeInUp 0.6s ease-out forwards;
+    animation: pptFadeInUp 0.5s ease-out forwards;
     opacity: 0;
 }
 
-/* 3. EFECTO "APARECER EM SEQUÊNCIA" (Stagger Effect)
-   Aplica atrasos progressivos aos cards/elementos */
-
+/* 3. EFECTO "APARECER EM SEQUÊNCIA" (Stagger Effect) Aplica atrasos progressivos aos cards/elementos */
 .slide.active .card:nth-child(1),
 .slide.active .grid-4>*:nth-child(1),
 .slide.active .grid-2>*:nth-child(1),
