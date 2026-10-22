@@ -74,20 +74,85 @@ a:hover {
     height: 100%;
     opacity: 0;
     visibility: hidden;
-    transform: scale(0.96);
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    /*transform: scale(0.96);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);*/
     padding: 40px 60px 90px 60px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     overflow-y: auto;
+
+    transform: translateX(50px) scale(0.98);
+    /* Começa ligeiramente deslocado à direita */
+    transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+        transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .slide.active {
     opacity: 1;
     visibility: visible;
-    transform: scale(1);
+    /*transform: scale(1);*/
     z-index: 2;
+
+    transform: translateX(0) scale(1);
+}
+
+/* Define a animação de entrada (Fade In + Slide Up) */
+@keyframes pptFadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Elementos dentro do slide ativo que serão animados */
+.slide.active h1,
+.slide.active h2,
+.slide.active h3,
+.slide.active p,
+.slide.active .card,
+.slide.active .table-container,
+.slide.active .metric-container,
+.slide.active .metric-card {
+    animation: pptFadeInUp 0.6s ease-out forwards;
+    opacity: 0;
+}
+
+/* 3. EFECTO "APARECER EM SEQUÊNCIA" (Stagger Effect)
+   Aplica atrasos progressivos aos cards/elementos */
+
+.slide.active .card:nth-child(1),
+.slide.active .grid-4>*:nth-child(1),
+.slide.active .grid-2>*:nth-child(1),
+.slide.active .grid-3>*:nth-child(1) {
+    animation-delay: 0.5s;
+}
+
+.slide.active .card:nth-child(2),
+.slide.active .grid-4>*:nth-child(2),
+.slide.active .grid-2>*:nth-child(2),
+.slide.active .grid-3>*:nth-child(2) {
+    animation-delay: 1.0s;
+}
+
+.slide.active .card:nth-child(3),
+.slide.active .grid-4>*:nth-child(3),
+.slide.active .grid-3>*:nth-child(3) {
+    animation-delay: 1.5s;
+}
+
+.slide.active .card:nth-child(4),
+.slide.active .grid-4>*:nth-child(4) {
+    animation-delay: 2.0s;
+}
+
+.slide.active .card:nth-child(5) {
+    animation-delay: 2.5s;
 }
 
 .slide-header {
@@ -415,13 +480,13 @@ tr:nth-child(even) {
     margin: auto;
     width: 100%;
     min-height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     justify-content: center;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
-    z-index: 10;
+    z-index: 100;
     padding: 15px;
 }
 
@@ -437,10 +502,6 @@ tr:nth-child(even) {
     padding: 10px;
     transition: transform 0.3s ease;
     margin: auto;
-}
-
-.cap5 {
-    margin-top: 40px;
 }
 
 .img {

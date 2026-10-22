@@ -284,7 +284,6 @@
           <div class="conteudo-ampliado" onclick="event.stopPropagation()">
             <div class="slide-content">
               <div class="card">
-                <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay')">Fechar</button>
                 <div class="table-container">
                   <table>
                     <thead>
@@ -318,6 +317,7 @@
                   </table>
                 </div>
               </div>
+
               <div class="card">
                 <p>
                   <strong style="color: var(--cor-destaque)">Faixa Ideal de Trabalho da EGR</strong> <br>
@@ -331,6 +331,7 @@
               </div>
             </div>
           </div>
+          <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay')">Fechar</button>
         </div>
 
         <div class="overlay" id="meuOverlay2">
@@ -338,8 +339,8 @@
             <div class="video">
               <video src="./doc/video/euro6.mkv" controls></video>
             </div>
-            <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay2')">Fechar</button>
           </div>
+          <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay2')">Fechar</button>
         </div>
 
       </div>
@@ -369,10 +370,8 @@
                 mais
                 rígidas (máximo de 0,5g/dia) e medição em condições reais de tráfego.</li>
               <li><strong>L8 (2025–2031):</strong><br> Mudança para o <a onclick="abrirZoom('meuOverlay3')"
-                  href="#">Modelo Corporativo de Emissões</a> (Crédito de Emissão Média Corporativa). Exige uso massivo
-                de filtros de partículas em motores flex/gasolina (GPF) e eletrificação
-                parcial (sistemas híbridos leves
-                e plenos).</li>
+                  href="#">Modelo Corporativo de Emissões</a>. Exige uso massivo de filtros de partículas em motores
+                flex/gasolina (GPF) e eletrificação parcial (sistemas híbridos leves e plenos).</li>
             </ul>
           </div>
           <div class="card">
@@ -394,10 +393,10 @@
         </div>
 
         <div class="overlay" id="meuOverlay3">
-          <div class="conteudo-ampliado cap5" onclick="event.stopPropagation()">
+          <div class="conteudo-ampliado" onclick="event.stopPropagation()">
             <div class="slide-content">
               <div class="card">
-                <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay3')">Fechar</button>
+                <h3>Crédito de Emissão Média Corporativa</h3>
                 <p>A nova regra corporativa diz: "Uma fabricante pode vender carros que poluem acima do limite,
                   desde que venda em quantidade suficiente outros carros que poluem menos (ou zero) para que a média
                   geral de todos os carros vendidos no ano fique dentro do limite
@@ -451,6 +450,7 @@
               </div>
             </div>
           </div>
+          <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay3')">Fechar</button>
         </div>
 
       </div>
@@ -521,13 +521,11 @@
               rodagem do solo e vias urbanas.</p>
           </div>
         </div>
-        <div class="grid-2">
-          <div class="card">
-            <p class="obs">
-              Um glóbulo vermelho do sangue mede de 7 a 8 micrômetros. <br>
-              Um fio de cabelo mede de 25 a 75 micrômetros.
-            </p>
-          </div>
+        <div class="card">
+          <p class="obs">
+            Um glóbulo vermelho do sangue mede de 7 a 8 micrômetros. <br>
+            Um fio de cabelo mede de 25 a 75 micrômetros.
+          </p>
         </div>
       </div>
     </section>
@@ -587,15 +585,13 @@
               vias reais com PEMS (Sistemas Portáteis de Medição).</p>
           </div>
         </div>
-
-        <a onclick="abrirZoom('meuOverlay4')" href="#">Partida a Frio e Testes</a>
-        <div class="overlay" id="meuOverlay4">
-          <div class="conteudo-ampliado img" onclick="event.stopPropagation()">
-            <img src="./doc/img/partidaFrioTestes.jpeg" alt="">
-            <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay4')">Fechar</button>
-          </div>
+      </div>
+      <a onclick="abrirZoom('meuOverlay4')" href="#">Partida a Frio e Testes</a>
+      <div class="overlay" id="meuOverlay4">
+        <div class="conteudo-ampliado img" onclick="event.stopPropagation()">
+          <img src="./doc/img/partidaFrioTestes.jpeg" alt="">
+          <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay4')">Fechar</button>
         </div>
-
       </div>
     </section>
 
@@ -624,15 +620,13 @@
             </ul>
           </div>
         </div>
-
-        <a onclick="abrirZoom('meuOverlay5')" href="#">OBM e Auditoria Remota</a>
-        <div class="overlay" id="meuOverlay5">
-          <div class="conteudo-ampliado img" onclick="event.stopPropagation()">
-            <img src="./doc/img/obm.jpeg" alt="">
-            <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay5')">Fechar</button>
-          </div>
+      </div>
+      <a onclick="abrirZoom('meuOverlay5')" href="#">OBM e Auditoria Remota</a>
+      <div class="overlay" id="meuOverlay5">
+        <div class="conteudo-ampliado img" onclick="event.stopPropagation()">
+          <img src="./doc/img/obm.jpeg" alt="">
+          <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay5')">Fechar</button>
         </div>
-
       </div>
     </section>
 
@@ -974,14 +968,6 @@
               Arla 32 integrado ao segundo SCR abaixo do açoalho).
             </p>
             <a onclick="abrirZoom('meuOverlay6')" href="#">Dual-SCR</a>
-            <div class="overlay" id="meuOverlay6">
-              <div class="conteudo-ampliado" onclick="event.stopPropagation()">
-                <div class="video">
-                  <video src="./doc/video/Volkswagen-Twin-Dosing.mkv" controls></video><br>
-                </div>
-                <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay6')">Fechar</button>
-              </div>
-            </div>
           </div>
           <div class="card">
             <h3>Aquecimento Elétrico do Catalisador (EHC)</h3>
@@ -1014,6 +1000,14 @@
               controlada, gerando calor imediato e elevando a temperatura dos gases de exaustão rapidamente.
             </p>
           </div>
+        </div>
+      </div>
+      <div class="overlay" id="meuOverlay6">
+        <div class="conteudo-ampliado" onclick="event.stopPropagation()">
+          <div class="video">
+            <video src="./doc/video/Volkswagen-Twin-Dosing.mkv" controls></video><br>
+          </div>
+          <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay6')">Fechar</button>
         </div>
       </div>
     </section>
@@ -1101,12 +1095,12 @@
             </tbody>
           </table>
         </div>-->
-        <a onclick="abrirZoom('meuOverlay7')" href="#">Tendência do Diesel</a>
-        <div class="overlay" id="meuOverlay7">
-          <div class="conteudo-ampliado img" onclick="event.stopPropagation()">
-            <img src="./doc/img/diesel.png" alt="Gráfico da Tendência do uso de Motores Diesel">
-            <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay7')">Fechar</button>
-          </div>
+      </div>
+      <a onclick="abrirZoom('meuOverlay7')" href="#">Tendência do Diesel</a>
+      <div class="overlay" id="meuOverlay7">
+        <div class="conteudo-ampliado img" onclick="event.stopPropagation()">
+          <img src="./doc/img/diesel.png" alt="Gráfico da Tendência do uso de Motores Diesel">
+          <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay7')">Fechar</button>
         </div>
       </div>
     </section>
@@ -1205,15 +1199,13 @@
             </ul>
           </div>
         </div>
-
-        <a onclick="abrirZoom('meuOverlay8')" href="#">Toyota Mirai</a>
-        <div class="overlay" id="meuOverlay8">
-          <div class="conteudo-ampliado" onclick="event.stopPropagation()">
-            <img src="./doc/img/mirai.jpg" alt="Toyota Mirai Abastecendo">
-            <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay8')">Fechar</button>
-          </div>
+      </div>
+      <a onclick="abrirZoom('meuOverlay8')" href="#">Toyota Mirai</a>
+      <div class="overlay" id="meuOverlay8">
+        <div class="conteudo-ampliado" onclick="event.stopPropagation()">
+          <img src="./doc/img/mirai.jpg" alt="Toyota Mirai Abastecendo">
+          <button class="nav-btn p-ab" onclick="fecharZoom('meuOverlay8')">Fechar</button>
         </div>
-
       </div>
     </section>
 
