@@ -106,13 +106,13 @@ a:hover {
 }
 
 /* --- Configurações Individuais (Altura, Cor, Velocidade e Atraso) --- */
-
 /* Projétil 1 - Azul Neon */
 .p1 {
     top: 15%;
     background: linear-gradient(90deg, transparent, #00f2fe, #ffffff);
     box-shadow: 0 0 12px #00f2fe;
-    animation-duration: 2.5s;
+    /*animation-duration: 2.5s;*/
+    animation-duration: 5s;
     animation-delay: 0s;
 }
 
@@ -122,7 +122,8 @@ a:hover {
     width: 180px;
     background: linear-gradient(90deg, transparent, #ff007f, #ffffff);
     box-shadow: 0 0 12px #ff007f;
-    animation-duration: 1.8s;
+    /*animation-duration: 1.8s;*/
+    animation-duration: 4s;
     animation-delay: 1.2s;
 }
 
@@ -133,7 +134,8 @@ a:hover {
     height: 1.5px;
     background: linear-gradient(90deg, transparent, #00ff88, #ffffff);
     box-shadow: 0 0 10px #00ff88;
-    animation-duration: 3.2s;
+    /*animation-duration: 3.2s;*/
+    animation-duration: 3s;
     animation-delay: 0.5s;
 }
 
@@ -143,7 +145,8 @@ a:hover {
     width: 160px;
     background: linear-gradient(90deg, transparent, #7928ca, #ffffff);
     box-shadow: 0 0 14px #7928ca;
-    animation-duration: 2.1s;
+    /*animation-duration: 2.1s;*/
+    animation-duration: 4s;
     animation-delay: 2.4s;
 }
 
@@ -154,7 +157,8 @@ a:hover {
     height: 2.5px;
     background: linear-gradient(90deg, transparent, #ffb703, #ffffff);
     box-shadow: 0 0 12px #ffb703;
-    animation-duration: 2.8s;
+    /*animation-duration: 2.8s;*/
+    animation-duration: 5s;
     animation-delay: 1.7s;
 }
 
@@ -547,14 +551,6 @@ tr:nth-child(even) {
     cursor: pointer;
     transition: transform 0.2s;
 }
-
-/*#thumb-img {
-    width: 100%;
-}*/
-
-/*.thumb:hover {
-    transform: scale(1.03);
-}*/
 
 /* Fundo escuro (Overlay) */
 .overlay {
