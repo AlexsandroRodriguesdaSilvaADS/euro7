@@ -617,7 +617,7 @@ img {
 }
 
 video {
-    width: 1200px;
+    width: 1500px;
     border-radius: 10px;
 }
 
@@ -625,11 +625,6 @@ video {
 
     * {
         font-size: 12pt;
-    }
-
-    .overlay,
-    .overlay2 {
-        display: block;
     }
 
     .slide {
@@ -654,6 +649,10 @@ video {
     }
 
     .thumb {
+        width: 100%;
+    }
+
+    video {
         width: 100%;
     }
 }
