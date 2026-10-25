@@ -354,6 +354,12 @@ li {
     border-left: 4px solid var(--cor-sucesso);
 }
 
+.simple {
+    background: none;
+    border: none;
+    box-shadow: none;
+}
+
 /* Caixas de Métricas Destacadas */
 .metric-card {
     background: rgba(30, 41, 59, 0.8);
